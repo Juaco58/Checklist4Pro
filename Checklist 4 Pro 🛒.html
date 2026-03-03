@@ -67,11 +67,13 @@
         .btn-reset-prices { background: #fffaf0; color: var(--warning); border: 1px solid #feebc8; }
         .btn-clear { background: #fff5f5; color: var(--danger); }
     </style>
+    <link rel="manifest" href="manifest.json">
   </head>
   <body>
     <div class="card">
       <h2>Mi Compra 🛒</h2>
-      <div class="add-section"> <input id="new-item" placeholder="Ej: Café, Pan..."
+      <div class="add-section"> <input id="new-item" placeholder="Ej: Café, Pan..."
+
           type="text"> <button class="btn btn-add" id="btn-add">Añadir</button>
       </div>
       <ul id="list-container">
@@ -212,6 +214,14 @@
 
         inputItem.onkeypress = (e) => { if(e.key === 'Enter') btnAdd.click(); };
         window.onload = load;
+    
+    if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(reg => console.log('Service Worker registrado', reg))
+      .catch(err => console.log('Error al registrar', err));
+  });
+}
     </script>
   </body>
 </html>
