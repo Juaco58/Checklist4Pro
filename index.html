@@ -217,10 +217,16 @@
         window.onload = load;
     
     if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js?v=2') // El ?v=2 obliga a Chrome a actualizar
-      .then(() => console.log('¡App lista!'))
-      .catch(err => console.log('Fallo:', err));
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(reg => {
+          console.log('SW registrado');
+          // Esto obliga al SW a activarse rápido
+          reg.update();
+        })
+        .catch(err => console.log('Error:', err));
+    });
   }
-    </script>
+</script>
   </body>
 </html>
