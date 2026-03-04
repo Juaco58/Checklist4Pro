@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checklist 4 Pro 🛒</title>
     <link rel="manifest" href="/Checklist4Pro/manifest.json">
     <meta name="theme-color" content="#3498db">
-    <meta
-  name="description"
-  content="Lista de Supermercados elaborada por Joaquín, para facilitar la elección de items en la compra, interactuando con items, de manera de 
-  controlar presupuesto total de lo adquirido y precios individuales cobrados en la caja.">
     <style>
         :root {
             --primary: #3498db;
@@ -20,80 +16,151 @@
             --bg: #f4f7f6;
         }
 
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 15px; margin: 0; }
-        .card { background: white; width: 100%; max-width: 450px; padding: 1.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            width: 100%;
+            max-width: 450px;
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
         h2 { text-align: center; color: var(--dark); margin: 0 0 15px 0; }
 
-        .add-section { display: flex; gap: 8px; margin-bottom: 15px; }
-        input[type="text"] { flex: 1; padding: 12px; border: 2px solid #edf2f7; border-radius: 10px; outline: none; font-size: 1rem; }
+        .add-section {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"], input[type="number"] {
+            padding: 12px;
+            border: 2px solid #edf2f7;
+            border-radius: 10px;
+            outline: none;
+            font-size: 1rem;
+        }
+
         input[type="text"]:focus { border-color: var(--primary); }
 
-        .btn { border: none; border-radius: 10px; cursor: pointer; font-weight: bold; transition: all 0.2s ease; }
+        .btn {
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
         .btn-add { background: var(--primary); color: white; padding: 0 20px; }
 
         ul { list-style: none; padding: 0; margin: 20px 0; }
-        li { 
-            display: flex; align-items: center; gap: 10px;
-            background: #fff; border: 1px solid #f0f0f0; padding: 10px; 
-            margin-bottom: 8px; border-radius: 10px;
-            transition: opacity 0.3s ease;
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #fff;
+            border: 1px solid #f0f0f0;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 10px;
         }
 
-        .check-btn { 
-            width: 24px; height: 24px; border: 2px solid #cbd5e0; border-radius: 50%; 
-            background: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        .check-btn {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #cbd5e0;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
-        li.checked .check-btn { background: var(--success); border-color: var(--success); color: white; }
-        li.checked .check-btn::after { content: '✓'; font-size: 14px; font-weight: bold; }
 
-        li.has-price .item-name { text-decoration: line-through; color: #a0aec0; }
-        li.has-price { opacity: 0.7; }
+        /* ESTADO: Tildado manual (Verde) - SIN TACHADO */
+        li.checked:not(.has-price) .check-btn {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+        li.checked:not(.has-price) .check-btn::after { content: '✓'; font-size: 14px; }
+
+        /* ESTADO: Con precio (Rojo) - CON TACHADO */
+        li.has-price .check-btn {
+            background-color: var(--danger) !important;
+            border-color: var(--danger) !important;
+            color: white;
+        }
+        li.has-price .check-btn::after { content: '✕'; font-size: 12px; }
+
+        li.has-price .item-name {
+            text-decoration: line-through;
+            color: #a0aec0;
+        }
 
         .item-name { flex: 1; font-weight: 500; color: #4a5568; cursor: pointer; }
-        .input-price { width: 80px; padding: 8px; border: 1px solid #e2e8f0; border-radius: 6px; text-align: right; }
-        
-        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
-        .btn-del { background: none; color: #cbd5e0; border: none; font-size: 1.2rem; cursor: pointer; padding: 5px; }
+        .input-price { width: 80px; padding: 8px !important; text-align: right; }
+
+        .btn-del { background: none; color: #cbd5e0; border: none; font-size: 1.2rem; cursor: pointer; }
         .btn-del:hover { color: var(--danger); }
 
-        .total-container { 
-            padding: 18px; background: var(--dark); color: white;
-            border-radius: 12px; display: flex; justify-content: space-between;
-            font-size: 1.4rem; font-weight: bold;
+        .total-container {
+            padding: 18px;
+            background: var(--dark);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.4rem;
+            font-weight: bold;
         }
 
-        /* El grid organiza los botones en 2 columnas */
-        .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .actions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
         .btn-action { padding: 12px; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        
         .btn-share { background: #edf2f7; color: var(--dark); }
-        /* Botón Desmarcar ahora en verde */
         .btn-reset-checks { background: #e8f5e9; color: var(--success); border: 1px solid #c8e6c9; }
         .btn-reset-prices { background: #fffaf0; color: var(--warning); border: 1px solid #feebc8; }
         .btn-clear { background: #fff5f5; color: var(--danger); }
     </style>
-
-  </head>
-  <body>
+</head>
+<body>
     <div class="card">
-      <h2>Mi Compra 🛒</h2>
-      <div class="add-section"> <input id="new-item" placeholder="Ej: Café, Pan..."
-
-          type="text"> <button class="btn btn-add" id="btn-add">Añadir</button>
-      </div>
-      <ul id="list-container">
-      </ul>
-      <div class="total-container"> <span>TOTAL:</span> <span id="grand-total">$0.00</span>
-      </div>
-      <div class="actions-grid"> <button class="btn btn-action btn-share" id="btn-share">📤
-          Compartir</button> <button class="btn btn-action btn-reset-prices" id="btn-reset-prices">💰
-          Limpiar $</button> <button class="btn btn-action btn-reset-checks" id="btn-reset-checks">🔄
-          Desmarcar</button> <button class="btn btn-action btn-clear" id="btn-clear">🗑️
-          Vaciar Lista</button> </div>
-      <br>
-      <center><small>© Diseño: Joaquín Luis Navarro | Código: Gemini IA</small></center>
+        <h2>Mi Compra 🛒</h2>
+        <div class="add-section">
+            <input id="new-item" placeholder="Ej: Café, Pan..." type="text">
+            <button class="btn btn-add" id="btn-add">Añadir</button>
+        </div>
+        <ul id="list-container"></ul>
+        <div class="total-container">
+            <span>TOTAL:</span>
+            <span id="grand-total">$0.00</span>
+        </div>
+        <div class="actions-grid">
+            <button class="btn btn-action btn-share" id="btn-share">📤 Compartir</button>
+            <button class="btn btn-action btn-reset-prices" id="btn-reset-prices">💰 Limpiar $</button>
+            <button class="btn btn-action btn-reset-checks" id="btn-reset-checks">🔄 Desmarcar</button>
+            <button class="btn btn-action btn-clear" id="btn-clear">🗑️ Vaciar Lista</button>
+        </div>
     </div>
+
     <script>
         const inputItem = document.getElementById('new-item');
         const btnAdd = document.getElementById('btn-add');
@@ -130,7 +197,6 @@
             document.querySelectorAll('#list-container li').forEach(li => {
                 const priceInput = li.querySelector('.input-price');
                 const val = parseFloat(priceInput.value);
-                
                 if (priceInput.value !== "" && !isNaN(val)) {
                     li.classList.add('has-price');
                     total += val;
@@ -146,7 +212,8 @@
             if (!name) return;
             const li = document.createElement('li');
             if (isChecked) li.classList.add('checked');
-            
+            if (price !== "") li.classList.add('has-price');
+
             li.innerHTML = `
                 <div class="check-btn"></div>
                 <span class="item-name">${name}</span>
@@ -154,84 +221,92 @@
                 <button class="btn-del">✕</button>
             `;
 
-            const toggle = () => { li.classList.toggle('checked'); save(); };
+            const toggle = () => {
+                li.classList.toggle('checked');
+                save();
+            };
+
             li.querySelector('.check-btn').onclick = toggle;
             li.querySelector('.item-name').onclick = toggle;
-            
-            li.querySelector('.btn-del').onclick = () => { 
-                li.remove(); 
-                calculateTotal(); 
-            };
-            
+            li.querySelector('.btn-del').onclick = () => { li.remove(); calculateTotal(); };
             li.querySelector('.input-price').oninput = calculateTotal;
+
             listContainer.appendChild(li);
-            if (price !== "") li.classList.add('has-price');
         }
 
-        document.getElementById('btn-share').onclick = async () => {
-            let text = "*LISTA DE COMPRA* 🛒\n\n";
-            document.querySelectorAll('#list-container li').forEach(li => {
-                const status = li.classList.contains('checked') ? "✅" : "⬜";
-                const name = li.querySelector('.item-name').textContent;
-                const price = li.querySelector('.input-price').value || "---";
-                text += `${status} ${name}: $${price}\n`;
-            });
-            text += `\n*TOTAL: ${grandTotalDisplay.textContent}*`;
-
-            if (navigator.share) {
-                try { await navigator.share({ title: 'Mi Lista', text: text }); } 
-                catch(e) { console.log("Cancelado"); }
-            } else {
-                navigator.clipboard.writeText(text);
-                alert("✅ ¡Copiado al portapapeles!");
-            }
-        };
-
-        document.getElementById('btn-reset-checks').onclick = () => {
-            document.querySelectorAll('#list-container li').forEach(li => {
-                li.classList.remove('checked');
-            });
-            save();
-        };
-
-        document.getElementById('btn-reset-prices').onclick = () => {
-            if(confirm("¿Borrar todos los precios? (Esto quitará los tachados)")) {
-                document.querySelectorAll('.input-price').forEach(i => i.value = "");
-                calculateTotal();
-            }
-        };
-
-        document.getElementById('btn-clear').onclick = () => {
-            if(confirm("¿Borrar toda la lista?")) { 
-                listContainer.innerHTML = ""; 
-                calculateTotal(); 
-            }
-        };
-
-        btnAdd.onclick = () => { 
+        btnAdd.onclick = () => {
             const val = inputItem.value.trim();
             if(val) {
-                createItem(val); 
-                inputItem.value = ""; 
+                createItem(val);
+                inputItem.value = "";
                 inputItem.focus();
                 calculateTotal();
             }
         };
 
         inputItem.onkeypress = (e) => { if(e.key === 'Enter') btnAdd.click(); };
+
+        document.getElementById('btn-share').onclick = async () => {
+            let text = "*LISTA DE COMPRA* 🛒\n\n";
+            document.querySelectorAll('#list-container li').forEach(li => {
+                const isChecked = li.classList.contains('checked');
+                const hasPrice = li.classList.contains('has-price');
+                const name = li.querySelector('.item-name').textContent;
+                const price = li.querySelector('.input-price').value;
+
+                let statusEmoji = "⬜"; 
+                let nameFormatted = name;
+
+                if (hasPrice) {
+                    statusEmoji = "🔴"; 
+                    nameFormatted = `~${name}~ *($${price})*`; // Tachado solo si tiene precio
+                } else if (isChecked) {
+                    statusEmoji = "✅"; 
+                    nameFormatted = name; // SIN tachado si solo tiene tilde verde
+                }
+
+                text += `${statusEmoji} ${nameFormatted}\n`;
+            });
+
+            text += `\n*TOTAL: ${grandTotalDisplay.textContent}*`;
+
+            if (navigator.share) {
+                try { await navigator.share({ title: 'Mi Lista', text: text }); } catch(e) {}
+            } else {
+                navigator.clipboard.writeText(text);
+                alert("✅ ¡Copiado!");
+            }
+        };
+
+        document.getElementById('btn-reset-checks').onclick = () => {
+            document.querySelectorAll('#list-container li').forEach(li => li.classList.remove('checked'));
+            save();
+        };
+
+        document.getElementById('btn-reset-prices').onclick = () => {
+            if(confirm("¿Borrar todos los precios?")) {
+                document.querySelectorAll('.input-price').forEach(i => i.value = "");
+                calculateTotal();
+            }
+        };
+
+        document.getElementById('btn-clear').onclick = () => {
+            if(confirm("¿Borrar toda la lista?")) {
+                listContainer.innerHTML = "";
+                calculateTotal();
+            }
+        };
+
         window.onload = load;
-    
-    if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./service-worker.js')
-        .then(reg => {
-          console.log('SW registrado');
-          // Esto obliga al SW a activarse rápido
-          reg.update();
-        })
-        .catch(err => console.log('Error:', err));
-    });
-  }
-</script>
-  </body>
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(reg => console.log('SW registrado'))
+                    .catch(err => console.log('Error:', err));
+            });
+        }
+    </script>
+</body>
 </html>
+
