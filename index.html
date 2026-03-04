@@ -67,7 +67,8 @@
         .btn-reset-prices { background: #fffaf0; color: var(--warning); border: 1px solid #feebc8; }
         .btn-clear { background: #fff5f5; color: var(--danger); }
     </style>
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#3498db">
   </head>
   <body>
     <div class="card">
@@ -216,12 +217,10 @@
         window.onload = load;
     
     if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js')
-      .then(reg => console.log('Service Worker registrado', reg))
-      .catch(err => console.log('Error al registrar', err));
-  });
-}
+    navigator.serviceWorker.register('service-worker.js?v=2') // El ?v=2 obliga a Chrome a actualizar
+      .then(() => console.log('¡App lista!'))
+      .catch(err => console.log('Fallo:', err));
+  }
     </script>
   </body>
 </html>
