@@ -15,7 +15,7 @@
     "purpose": "any"
   },
   {
-    "src": "/Checklist4Pro/android-chrome-512-512",
+    "src": "/Checklist4Pro/android-chrome-512x512",
     "sizes": "512x512",
     "type": "image/png",
     "purpose": "maskable"
