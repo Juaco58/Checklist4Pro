@@ -1,13 +1,11 @@
 const CACHE_NAME = 'checklist-pro-v1';
 const ASSETS = [
-  './',
   "/Checklist4Pro/",
-  "/Checklist4Pro/index.html",
   "/Checklist4Pro/manifest.json",
   // Agrega aquí las rutas de tus iconos si los nombres son diferentes:
-  '/Checklist4Pro/android-chrome-192x192.png',
-  '/Checklist4Pro/android-chrome-512x512.png',
-  '/Checklist4Pro/maskable-icon-512x512.png'
+  "/Checklist4Pro/android-chrome-192x192.png",
+  "/Checklist4Pro/android-chrome-512x512.png",
+  "/Checklist4Pro/maskable-icon-512x512.png"
 ];
 
 // Instala el Service Worker y guarda los archivos en caché
