@@ -1,8 +1,9 @@
 const CACHE_NAME = 'checklist-pro-v1';
 const ASSETS = [
   './',
-  './index.html',
-  './manifest.json',
+  "/Checklist4Pro/",
+  "/Checklist4Pro/index.html",
+  '/Checklist4Pro/manifest.json',
   // Agrega aquí las rutas de tus iconos si los nombres son diferentes:
   './android-chrome-192x192.png',
   './android-chrome-512x512.png',
