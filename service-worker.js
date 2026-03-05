@@ -5,7 +5,8 @@ const ASSETS = [
   './manifest.json',
   // Agrega aquí las rutas de tus iconos si los nombres son diferentes:
   './android-chrome-192x192.png',
-  './android-chrome-512x512.png'
+  './android-chrome-512x512.png',
+  './maskable-icon-512x512.png'
 ];
 
 // Instala el Service Worker y guarda los archivos en caché
