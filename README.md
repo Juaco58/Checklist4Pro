@@ -6,9 +6,9 @@ Los ítems pueden marcarse o desmarcarse individualmente, en función de la list
 
 Una vez en el Supermercado, se carga el precio de góndola de cada ítem, a medida que se los va introduciendo en el carro.
 
-Al cargar el precio, el nombre del ítem en la lista se tacha automáticamente.
+Al cargar el precio, el nombre del ítem en la lista se tacha automáticamente y la casilla del tilde se vuelve roja.
 
-Si uno cambia de parecer, y decide no adquirir dicho ítem, el tachado se elimina al borrar el precio respectivo.
+Si uno cambia de parecer, y decide no adquirir dicho ítem, el tachado se elimina al borrar el precio respectivo y la casilla vuelve a su estado anterior.
 
 A medida que se colocan (o quitan) los precios individuales, se actualizada automáticamente la suma TOTAL de la compra en curso.
 
