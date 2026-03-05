@@ -4,7 +4,7 @@
   "short_name": "Checklist",
   "description": "Mi lista de compras profesional",
   "start_url": "./Checklist4Pro/index.html",
-  "scope": "/Checklist4Pro/",
+  "scope": "./Checklist4Pro/",
   "display": "standalone",
   "background_color": "#f4f7f6",
   "theme_color": "#3498db",
