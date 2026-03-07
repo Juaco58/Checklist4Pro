@@ -4,6 +4,8 @@ La App se suministra mediante un enlace. Accediendo al mismo desde un teléfono 
 
 La App permite crear una lista de compras eventuales para Supermercado, agregando los ítems usualmente adquiridos, o sólo los que se planea comprar en una oportunidad.
 
+Cada ítem se agrega escribiendo el nombre correspondiente y picando seguidamente el botón "Añadir", o bien oprimiendo la tecla Enter del teclado de la PC o su equivalente en el teléfono.
+
 En la lista uno tiene la opción de marcar con un tilde (blanco con fondo verde) la casilla a la izquierda del nombre de cada ítem que realmente piensa comprar.
 
 Los tildes sirven como guía visual de compras cuando la lista es larga, pero pueden ponerse o quitarse individualmente, en cualquier momento.
