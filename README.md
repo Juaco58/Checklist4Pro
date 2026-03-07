@@ -1,27 +1,34 @@
-Esta App permite crear una lista de compras eventuales para Supermercado, agregando los ítems usualmente comprados.
+Checklist 4 Pro (Mis Compras) es una App en lenguajes HTML y JavaScript, para hacer una lista interactiva de compras. Una vez que se accede al enlace provisto, aparecerá la App en el Navegador del usuario. Luego, picando los tres puntos en la parte superior derecha de la barra de navegación la App podrá guardarse en la página de inicio del celular, o bien instalarla (recomendado) en el celular, o en la PC.
 
-Luego de ello, uno puede marcar con un tilde sólo aquellos ítems que realmente piensa comprar.
+La App permite crear una lista de compras eventuales para Supermercado, agregando los ítems usualmente adquiridos, o sólo los que se planea comprar en una oportunidad.
 
-Los ítems pueden marcarse o desmarcarse individualmente, en función de la lista programada para dicha compra.
+En la lista uno tiene la opción de marcar con un tilde (blanco con fondo verde) la casilla a la izquierda del nombre de cada ítem que realmente piensa comprar.
 
-Una vez en el Supermercado, se carga el precio de góndola de cada ítem, a medida que se los va introduciendo en el carro.
+Los tildes sirven como guía visual de compras cuando la lista es larga, pero pueden ponerse o quitarse individualmente, en cualquier momento.
 
-Al cargar el precio, el nombre del ítem en la lista se tacha automáticamente y la casilla del tilde se vuelve roja.
+Todos los tildes pueden borrarse simultáneamente (por ejemplo, para iniciar una nueva compra), picando el botón "Desmarcar".
 
-Si uno cambia de parecer, y decide no adquirir dicho ítem, el tachado se elimina al borrar el precio respectivo y la casilla vuelve a su estado anterior.
+Esto último permitiría utilizar la misma lista, marcando y/o agregando compras eventuales diferentes, en un oportunidad subsiguiente.
 
-A medida que se colocan (o quitan) los precios individuales, se actualizada automáticamente la suma TOTAL de la compra en curso.
+Una vez en el Supermercado, al recorrer las góndolas se puede cargar el precio cada ítem, a medida que se los va introduciendo en el carro.
 
-Todos los tildes pueden borrarse simultáneamente (por ejemplo, para iniciar una nueva compra), se pica el botón "Desmarcar".
+Al cargar el precio, el nombre del ítem en la lista se tacha automáticamente y la casilla para el tilde cambia, tornándose roja con una "x" blanca.
 
-Esto último permitirá utilizar la misma lista, marcando y/o agregando compras eventuales diferentes a la finalizada, en un oportunidad subsiguiente.
+Si uno cambia de parecer, y decide no adquirir dicho ítem, se debe borrar el precio respectivo, con lo cual el tachado se elimina y la casilla vuelve a su estado original.
 
-Todos los precios de lo adquirido pueden borrarse simultáneamente al picar el boton "Limpiar $".
+A medida que se colocan (o quitan) los precios individuales, se actualiza automáticamente la suma TOTAL de la compra en curso.
 
-Para borrar sólo un ítem determinado (junto con su casilla para tildar y su precio, estén llenos o no), se debe oprimir la "X" a la derecha del precio.
+Todos los precios de lo adquirido pueden borrarse simultáneamente al picar el botón "Limpiar $" (aparecerá un mensaje para confirmar la acción)
 
-Si por alguna razón se desea borrar simultáneamente todos los ítems de la lista, se pica en el boton "Vaciar Lista".
+Para borrar toda la línea de un ítem determinado (nombre, y casillas para el tilde y el precio (estén llenas o no), se debe oprimir la "X" en la casilla a la derecha del precio. Al colocarse sobre dicha casilla la "x" se vuelve roja, porque esta operación restará del Total dicho precio, si lo hubiere, y no tiene otra advertencia ni retorno.
 
-La lista puede compartirse en el estado en que esté, picando en el botón "Compartir".
+Si por alguna razón se desea borrar simultáneamente todos los ítems de la lista, se pica en el botón "Vaciar Lista" (aparecerá un mensaje para confirmar la acción).
 
-Esto último enviará la lista al destinatario por el medio elegido, ya sea con o sin tildes en los diferentes (o todos) items marcados, y con o sin los precios respectivos introducidos.
+La lista, en el estado que esté, se conserva en la memoria del teléfono o la PC aún si se sale de la ventana o la App, lo cual permite volver a dicha lista al abrir nuevamente la App.
+
+Finalmente, la lista puede compartirse por diversas vías (por ej., WhatsApp)en el estado en que esté, picando en el botón "Compartir".
+
+Esto último permitirá elegir el medio de envío y el destinatario, quien luego recibirá una lista plana completa, donde verá los ítems tildados y aún no comprados, los ya eventualmente adquiridos (con su precio), el resto de los ítems sin tilde que pudiese haber en la lista, y el monto Total de lo comprado.
+
+La app es útil para confeccionar listas de compras, llevar un control permanente del monto Total a medida que se cargan ítems (para respetar el presupuesto deseado), cotejar el monto facturado en caja (ya sea el de un ítem en particular, o el total), o para cotejar a posteriori los montos de los distintos ítems en el ticket, o para comparar los precios de gondola de productos adquiridos previamente en un sitio vs. los existentes en otro lugar.
+
