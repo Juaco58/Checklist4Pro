@@ -1,4 +1,6 @@
-Checklist 4 Pro (Mis Compras) es una App en lenguajes HTML y JavaScript, para hacer una lista interactiva de compras. Una vez que se accede al enlace provisto, aparecerá la App en el Navegador del usuario. Luego, picando los tres puntos en la parte superior derecha de la barra de navegación la App podrá guardarse en la página de inicio del celular, o bien instalarla (recomendado) en el celular, o en la PC.
+Checklist 4 Pro (Mis Compras) es una App diseñada por Joaquín Luis Navarro, con código HTML y JavaScript generado fundamentalmente por Gemini IA, para que el usuario pueda crear una lista interactiva de compras. 
+
+La App se suministra mediante un enlace. Accediendo al mismo desde un teléfono inteligente o la PC, aparecerá la App en el Navegador del usuario. Seguidamente, se deberá picar en los tres puntos en la parte superior derecha de la barra de navegación, con lo cual podrá optarse por guardar la App en la página de inicio del teléfono, o bien instalarla (recomendado) en éste, o en la PC.
 
 La App permite crear una lista de compras eventuales para Supermercado, agregando los ítems usualmente adquiridos, o sólo los que se planea comprar en una oportunidad.
 
@@ -30,5 +32,5 @@ Finalmente, la lista puede compartirse por diversas vías (por ej., WhatsApp)en 
 
 Esto último permitirá elegir el medio de envío y el destinatario, quien luego recibirá una lista plana completa, donde verá los ítems tildados y aún no comprados, los ya eventualmente adquiridos (con su precio), el resto de los ítems sin tilde que pudiese haber en la lista, y el monto Total de lo comprado.
 
-La app es útil para confeccionar listas de compras, llevar un control permanente del monto Total a medida que se cargan ítems (para respetar el presupuesto deseado), cotejar el monto facturado en caja (ya sea el de un ítem en particular, o el total), o para cotejar a posteriori los montos de los distintos ítems en el ticket, o para comparar los precios de gondola de productos adquiridos previamente en un sitio vs. los existentes en otro lugar.
+Checklist 4 Pro es útil para confeccionar listas de compras, llevar un control permanente del monto Total a medida que se cargan ítems (para respetar el presupuesto deseado), cotejar el monto facturado en caja (ya sea el de un ítem en particular, o el total), o para cotejar a posteriori los montos de los distintos ítems en el ticket, o para comparar los precios de góndola de productos adquiridos previamente en un sitio vs. los existentes en otro lugar.
 
