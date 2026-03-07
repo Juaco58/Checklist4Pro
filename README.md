@@ -1,4 +1,4 @@
-Checklist 4 Pro (Mis Compras) es una App diseñada por Joaquín Luis Navarro, con código HTML y JavaScript generado fundamentalmente por Gemini IA, para que el usuario pueda crear una lista interactiva de compras. 
+Checklist 4 Pro (Mi Compra) es una App diseñada por Joaquín Luis Navarro, con código HTML y JavaScript generado fundamentalmente por Gemini IA, para que el usuario pueda crear una lista interactiva de compras.
 
 La App se suministra mediante un enlace. Accediendo al mismo desde un teléfono inteligente o la PC, aparecerá la App en el Navegador del usuario. Seguidamente, se deberá picar en los tres puntos en la parte superior derecha de la barra de navegación, con lo cual podrá optarse por guardar la App en la página de inicio del teléfono, o bien instalarla (recomendado) en éste, o en la PC.
 
