@@ -6,7 +6,7 @@ Permite gestionar listas, verificar tickets y saber exactamente cuánto vas a ga
 
 📲 [Link de descarga libre](https://juaco58.github.io/Checklist4Pro/index.html)
 
-🎬 [Video tutorial (paso a paso)](https://juaco58.github.io/Checklist4Pro/Tutorial Comprimido.mp4)
+🎬 [Video tutorial (paso a paso)](https://juaco58.github.io/Checklist4Pro/TutorialComprimido.mp4)
 
 📝 [Más info y detalles técnicos](https://juaco58.github.io/Checklist4Pro/README.md)
 
@@ -17,5 +17,6 @@ La App es gratuita, pero para los que la vean útil y quieran y puedan darme una
 
 
 ¡Espero que les sirva para organizar mejor sus gastos y hacer rendir más la plata! 🙌
+
 
 
