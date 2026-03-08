@@ -4,7 +4,7 @@ Permite gestionar listas, verificar tickets y saber exactamente cuánto vas a ga
 
 
 
-📲 \[[Link de descarga libre](https://juaco58.github.io/Checklist4Pro/index.html)](\[https://juaco58.github.io/Checklist4Pro/index.htm])
+📲 \[[Link de descarga libre](https://juaco58.github.io/Checklist4Pro/index.html)](\[https://juaco58.github.io/Checklist4Pro/index.html])
 
 🎬 \[Video Tutorial (paso a paso)](\[https://juaco58.github.io/Checklist4Pro/TutorialComprimido.mp4])
 
@@ -12,7 +12,11 @@ Permite gestionar listas, verificar tickets y saber exactamente cuánto vas a ga
 
 
 
-La App es \*gratuita\*, pero para los que la vean útil y quieran y puedan darme una mano con los gastos de mantenimiento, el aporte voluntario sugerido es de \***$4000\*** al Alias de mi cuenta en el BNA: \***NIETO.MARZO.JAMON\*  CBU: 0110127630012709971715.**
+La App es \*100% gratuita\*, y pueden compartirla tranquilos con este mensaje. Si sienten que les sirve y tienen ganas de darme una mano con los gastos de mantenimiento, les dejo mi Alias para un aporte voluntario sugerido de \*$4000\*. ¡Todo suma y se agradece un montón!
+
+Alias de mi cuenta en el BNA: \***NIETO.MARZO.JAMON\***  
+
+**CBU: 0110127630012709971715.**
 
 
 
