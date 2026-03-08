@@ -6,7 +6,7 @@ Permite gestionar listas, verificar tickets y saber exactamente cuánto vas a ga
 
 📲 [Link de descarga libre](https://juaco58.github.io/Checklist4Pro/index.html)
 
-🎬 [\[Video tutorial (paso a paso)]](https://juaco58.github.io/Checklist4Pro/Tutorial Checklist4Pro Comprimido.mp4)
+🎬 [Video tutorial (paso a paso)](https://juaco58.github.io/Checklist4Pro/Tutorial Checklist4Pro Comprimido.mp4)
 
 📝 [Más info y detalles técnicos](https://juaco58.github.io/Checklist4Pro/README.md)
 
