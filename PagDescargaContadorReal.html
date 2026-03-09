@@ -27,7 +27,7 @@
     <h1>Checklist 4 Pro</h1>
     <p>Descarga la herramienta y comienza a organizar tus compras.</p>
 
-    <img src="inicio_app.png" alt="Vista Previa" class="hero-img">
+    <!-- no necesito mostrar esta imagen: img src="inicio_app.png" alt="Vista Previa" class="hero-img"-->
 
     <!-- Contador Real -->
     <div class="counter">
@@ -49,6 +49,17 @@
             Tu navegador no soporta la reproducción de video.
         </video>
     </div>
+    <!-- Sección Compartir -->
+<div style="margin-top: 40px; padding: 20px; background: rgba(37, 99, 235, 0.05); border-radius: 18px; border: 1px dashed var(--primary);">
+    <h4 style="margin-top: 0; color: var(--primary);">¡Ayúdanos a llegar a más personas!</h4>
+    <p style="font-size: 0.95rem; margin-bottom: 15px;">Comparte esta herramienta con quien la necesite. Tu difusión es el mejor motor para este proyecto.</p>
+    
+    <button onclick="copiarEnlace()" class="btn btn-secondary" style="font-size: 0.85rem; padding: 10px 20px;">
+        <i class="fa-solid fa-share-nodes"></i> Copiar enlace de descarga
+    </button>
+    <span id="copy-msg" style="display:none; color: #10b981; font-size: 0.8rem; margin-left: 10px; font-weight: bold;">¡Copiado!</span>
+</div>
+
 </div>
 
 
@@ -110,6 +121,16 @@
 
     // Iniciar carga
     cargarConteo();
+
+    function copiarEnlace() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        const msg = document.getElementById('copy-msg');
+        msg.style.display = 'inline';
+        setTimeout(() => msg.style.display = 'none', 2000);
+    });
+}
+
 </script>
 
 </body>
