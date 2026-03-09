@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist 4 Pro - Descargas Oficiales</title>
+    <!-- Incluimos la librería de CounterAPI desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/counterapi/dist/counter.browser.min.js"></script>
+    <style>
+        :root { --primary: #2563eb; --dark: #1e293b; --light: #f8fafc; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--light); color: var(--dark); margin: 0; padding: 20px; text-align: center; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .app-icon { width: 80px; height: 80px; border-radius: 18%; margin-bottom: 10px; }
+        .hero-img { width: 100%; max-width: 400px; border-radius: 10px; margin: 20px 0; border: 1px solid #ddd; }
+        .btn { display: inline-block; padding: 12px 25px; margin: 10px; color: white; background: var(--primary); text-decoration: none; border-radius: 8px; font-weight: bold; transition: 0.3s; cursor: pointer; border: none; }
+        .btn:hover { opacity: 0.8; }
+        .btn-alt { background: #64748b; }
+        .counter { font-size: 1.2em; font-weight: bold; color: var(--primary); margin: 15px 0; }
+        .video-container { margin-top: 30px; }
+        iframe { width: 100%; max-width: 560px; height: 315px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://juaco58.github.io/Checklist4Pro/maskable-icon-512x512.png" alt="Icono" class="app-icon">
+    <h1>Checklist 4 Pro</h1>
+    <p>Descarga la herramienta y comienza a organizar tus compras.</p>
+
+    <img src="inicio_app.png" alt="Vista Previa" class="hero-img">
+
+    <!-- Contador Real -->
+    <div class="counter">
+        Descargas totales: <span id="download-count">Cargando...</span>
+    </div>
+
+    <div>
+        <!-- El enlace de descarga llama a la función de conteo -->
+        <a href="https://juaco58.github.io/Checklist4Pro/index.html" class="btn" id="download-link" onclick="registrarDescarga()" download>Descargar App</a>
+        <a href="https://juaco58.github.io/Checklist4Pro/InfoChecklist4Pro.pdf" class="btn btn-alt" target="_blank">📄 Info Técnica (PDF)</a>
+    </div>
+
+    <div class="video-container">
+    <h3>Video Tutorial</h3>
+    <!-- Se utiliza la URL de inserción correcta para el ID r-gGmYlpJ8Q -->
+    <div class="responsive-iframe-wrapper">
+        <iframe 
+            src="https://www.youtube.com" 
+            title="Checklist 4 Pro Tutorial" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+        </iframe>
+    </div>
+</div>
+
+<style>
+    /* Estilos para asegurar que el video se adapte a cualquier pantalla */
+    .responsive-iframe-wrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .responsive-iframe-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    h3 { margin-bottom: 15px; color: #1e293b; }
+</style>
+
+
+<script>
+    // Configuración de la Base de Datos (CounterAPI)
+    // 'checklist4pro-oficial' es tu identificador único (namespace)
+    const counter = new Counter({
+        namespace: 'checklist4pro-oficial',
+        debug: false
+    });
+
+    const countDisplay = document.getElementById('download-count');
+
+    // 1. Cargar el conteo actual al abrir la página
+    async function cargarConteo() {
+        try {
+            const res = await counter.get('app-downloads');
+            countDisplay.innerText = res.value || 0;
+        } catch (e) {
+            // Si el contador no existe aún, mostrar 0
+            countDisplay.innerText = "0";
+        }
+    }
+
+    // 2. Incrementar el conteo en la base de datos al hacer clic
+    async function registrarDescarga() {
+        try {
+            const res = await counter.up('app-downloads');
+            countDisplay.innerText = res.value;
+        } catch (e) {
+            console.error("Error al conectar con la base de datos", e);
+        }
+    }
+
+    // Iniciar carga
+    cargarConteo();
+</script>
+
+</body>
+</html>
