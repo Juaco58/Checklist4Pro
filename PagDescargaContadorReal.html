@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checklist 4 Pro - Descargas Oficiales</title>
     
-    <!-- Librerías: Iconos, Fuentes y Contador -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
-    <script src="https://cdn.jsdelivr.net"></script>
+    <!-- Librería de Iconos Corregida -->
+    <<!-- El enlace a la librería de iconos (FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
     <style>
         :root {
@@ -85,7 +85,6 @@
         .btn-secondary { background: #f1f5f9; color: var(--text-main); border: 1px solid #e2e8f0; }
         .btn-secondary:hover { background: #e2e8f0; transform: translateY(-2px); }
 
-        /* Estilos sección compartir */
         .share-section {
             margin-top: 40px; padding: 25px;
             background: rgba(37, 99, 235, 0.05);
@@ -101,13 +100,8 @@
         }
 
         .wa { background-color: var(--wa-color); }
-        .wa:hover { background-color: #128C7E; transform: scale(1.05); }
-
         .tg { background-color: var(--tg-color); }
-        .tg:hover { background-color: #0077b5; transform: scale(1.05); }
-
         .copy-link { background-color: #64748b; }
-        .copy-link:hover { background-color: #475569; transform: scale(1.05); }
 
         .video-section { border-top: 1px solid #e2e8f0; padding-top: 35px; margin-top: 40px; }
         .video-wrapper { border-radius: 18px; overflow: hidden; background: #000; box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
@@ -134,7 +128,8 @@
     </div>
 
     <div class="button-group">
-        <a href="https://juaco58.github.io/Checklist4Pro/index.html" class="btn btn-main" id="download-link" onclick="registrarDescarga()" download>
+        <!-- El evento onclick llama a la función corregida -->
+        <a href="https://juaco58.github.io/Checklist4Pro/index.html" class="btn btn-main" id="download-link" onclick="registrarDescarga()">
             <i class="fa-solid fa-circle-arrow-down"></i> Descargar App
         </a>
         <a href="https://juaco58.github.io/Checklist4Pro/InfoChecklist4Pro.pdf" class="btn btn-secondary" target="_blank">
@@ -142,64 +137,65 @@
         </a>
     </div>
 
-    <!-- Sección de Video -->
     <div class="video-section">
         <h3><i class="fa-solid fa-play-circle" style="color: #ef4444; margin-right: 8px;"></i>Video Tutorial</h3>
         <div class="video-wrapper">
-            <video controls poster="https://juaco58.github.io">
+            <video controls>
                 <source src="https://juaco58.github.io/Checklist4Pro/TutorialComprimido.mp4" type="video/mp4">
                 Tu navegador no soporta video.
             </video>
         </div>
     </div>
 
-    <!-- SECCIÓN COMPARTIR -->
     <div class="share-section">
         <h4 style="margin: 0; color: var(--primary);">🚀 ¡Ayúdanos a llegar a más personas!</h4>
-        <p style="font-size: 0.95rem; color: var(--text-muted); margin: 10px 0;">Comparte esta herramienta con quien la necesite. Tu difusión es el mejor motor para este proyecto.</p>
-        
         <div class="share-buttons">
-            <a href="https://api.whatsapp.com" 
-   target="_blank" 
-   class="btn-share wa">
-   <i class="fa-brands fa-whatsapp"></i> WhatsApp
-</a>
-
-</a>
-
-            <a href="https://t.me." 
-   target="_blank" 
-   class="btn-share tg">
-   <i class="fa-brands fa-telegram"></i> Telegram
-</a>
-
+            <a href="https://wa.me/?text=!Mira esta página: https://juaco58.github.io/Checklist4Pro/PagDescargaContadorReal.html" target="_blank" class="btn-share wa">
+                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+            </a>
+            <a href="https://t.me/share/url?url=https://juaco58.github.io/Checklist4Pro/PagDescargaContadorReal.html&text=Te%20recomiendo esta App para tus compras" target="_blank" class="btn-share tg">
+                <i class="fa-brands fa-telegram"></i> Telegram
+            </a>
             <button onclick="copiarEnlace()" class="btn-share copy-link">
-                <i class="fa-solid fa-link"></i> <span id="txt-copy">Copiar Link</span>
+                <i class="fa-solid fa-link"></i> <span id="txt-copy"></https:></span>
             </button>
         </div>
     </div>
 </div>
 
 <script>
-    const counter = new Counter({ namespace: 'checklist4pro-oficial' });
-    const countDisplay = document.getElementById('download-count');
+    // Configuración de la API (Nombre único para tu contador)
+    const namespace = 'juaco58_checklist4pro';
+    const key = 'descargas';
 
+    // Función para obtener el número actual al cargar la página
     async function cargarConteo() {
+        const display = document.getElementById('download-count');
         try {
-            const res = await counter.get('app-downloads');
-            countDisplay.innerText = res.value || 0;
-        } catch (e) { countDisplay.innerText = "0"; }
+            const res = await fetch(`https://api.countapi.xyz{namespace}/${key}`);
+            const data = await res.json();
+            display.innerText = data.value || 0;
+        } catch (e) {
+            // Si falla o no existe, muestra 0
+            display.innerText = "0";
+        }
     }
 
+    // Función para sumar 1 descarga
     async function registrarDescarga() {
+        const display = document.getElementById('download-count');
         try {
-            const res = await counter.up('app-downloads');
-            countDisplay.innerText = res.value;
-        } catch (e) { console.error(e); }
+            // "hit" suma uno automáticamente en la base de datos
+            const res = await fetch(`https://api.countapi.xyz{namespace}/${key}`);
+            const data = await res.json();
+            display.innerText = data.value;
+        } catch (e) {
+            console.error("Error al actualizar contador", e);
+        }
     }
 
     function copiarEnlace() {
-        const url = "https://juaco58.github.io/Checklist4Pro/PagDescargaContadorReal.html";
+        const url = window.location.href;
         const txt = document.getElementById('txt-copy');
         navigator.clipboard.writeText(url).then(() => {
             txt.innerText = "¡Copiado!";
@@ -207,6 +203,7 @@
         });
     }
 
+    // Iniciar carga del contador
     cargarConteo();
 </script>
 
