@@ -43,5 +43,5 @@ self.addEventListener('message', (event) => {
   }
 });
 
-// Esta es la Versión 2.0
+// Esta es la Versión 2.1
 // El número de Versión de la línea anterior debe cambiarse con cada nueva versión del Index.html
