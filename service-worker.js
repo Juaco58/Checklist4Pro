@@ -35,3 +35,13 @@ self.addEventListener('fetch', (event) => {
       .then((response) => response || fetch(event.request))
   );
 });
+
+//Mecanismo para "saltar la espera" cuando el usuario lo decida
+self.addEventListener('message', (event) => {
+  if (event.data === 'skipWaiting') {
+    self.skipWaiting();
+  }
+});
+
+// Esta es la Versión 2.0
+// El número de Versión de la línea anterior debe cambiarse con cada nueva versión del Index.html

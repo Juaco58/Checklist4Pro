@@ -179,6 +179,51 @@
         const saved = localStorage.getItem('marketListV3');
         if (saved) JSON.parse(saved).forEach(i => createItem(i.name, i.price, i.checked));
     };
+
+    <!--Paso3-->
+
+ let newWorker;
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./service-worker.js').then(reg => {
+                reg.addEventListener('updatefound', () => {
+                    newWorker = reg.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        // Si hay un nuevo SW instalado y listo, mostramos el aviso
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            const banner = document.getElementById('update-banner');
+                            if(banner) banner.style.display = 'flex';
+                        }
+                    });
+                });
+            });
+
+            // Escuchar cuando el nuevo Service Worker tome el mando para recargar
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                window.location.reload();
+            });
+        }
+
+        function updateApp() {
+            if (newWorker) {
+                newWorker.postMessage('skipWaiting');
+            }
+        }
+        // --- FIN DEL CÓDIGO DEL PASO 3 ---
+
+        // Aquí puedes mantener tus otras funciones (como registrarDescarga, etc.)
+        async function cargarConteo() { 
+            /* tu código actual */ 
+        }
+        cargarConteo();
 </script>
+
+<!-- Aviso de actualización -->
+<div id="update-banner" style="display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#2563eb; color:white; padding:12px 20px; border-radius:50px; box-shadow:0 4px 15px rgba(0,0,0,0.2); z-index:9999; align-items:center; gap:15px; font-family:sans-serif;">
+  <span>Nueva versión disponible</span>
+  <button onclick="updateApp()" style="background:white; color:#2563eb; border:none; padding:5px 12px; border-radius:20px; font-weight:bold; cursor:pointer;">Actualizar</button>
+</div>
+
+
 </body>
 </html>
