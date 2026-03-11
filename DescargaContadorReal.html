@@ -113,9 +113,7 @@
 
     <img src="https://juaco58.github.io/Checklist4Pro/Pantalla de Inicio con ALIAS.png" alt="Vista Previa" class="hero-img"><br>
 
-    <div class="counter-badge">
-        <i class="fa-solid fa-chart-line"></i> Descargas: <span id="download-count">Cargando...</span>
-    </div>
+    
 
     <div class="button-group">
         <!-- El botón llama a registrarDescarga() y luego abre el link -->
@@ -152,33 +150,7 @@
     </div>
 </div>
 
-<script>
-    // Tu URL de Google (Motor del contador)
-    const scriptURL = "https://script.google.com/macros/s/AKfycbzTbj_5-k2yyo3W4RpSUtpJe-Tqs2EgjRj8O6CuiA1dCMrQfGGIVaUZDP6EYQRSgkfGog/exec";
 
-    // Función principal para mostrar y sumar el número
-    function actualizarContador() {
-        const display = document.getElementById('download-count');
-        
-        // Usamos un método llamado JSONP para saltar el bloqueo de seguridad de Google
-        const script = document.createElement('script');
-        script.src = scriptURL + "?callback=mostrarNumero";
-        document.body.appendChild(script);
-    }
-
-    // Esta función recibe el número de Google y lo pone en la pantalla
-    window.mostrarNumero = function(dato) {
-        document.getElementById('download-count').innerText = dato;
-    };
-
-    // Al tocar el botón de descarga, activamos el contador
-    function registrarDescarga() {
-        actualizarContador();
-    }
-
-    // Al abrir la página, mostramos el número que ya tiene guardado
-    window.onload = actualizarContador;
-</script>
 
 
 </body>
