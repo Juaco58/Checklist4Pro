@@ -281,6 +281,21 @@ new Sortable(listContainer, {
         const saved = localStorage.getItem('marketListV3');
         if (saved) JSON.parse(saved).forEach(i => createItem(i.name, i.price, i.checked));
     };
+    if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js').then(reg => {
+        reg.onupdatefound = () => {
+            const installingWorker = reg.installing;
+            installingWorker.onstatechange = () => {
+                if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // Avisa al usuario o recarga
+                    if(confirm("¡Nueva versión disponible! ¿Actualizar ahora?")) {
+                        window.location.reload();
+                    }
+                }
+            };
+        };
+    });
+}
 </script>
 </body>
 </html>
