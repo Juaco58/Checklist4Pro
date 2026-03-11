@@ -36,13 +36,17 @@
         
         /* BOTÓN BORRAR: Gris más oscuro, Bold y Hover Rojo */
         .btn-del { 
+            min-width: 32px; 
             background: none !important; 
             color: #7f8c8d !important; /* Gris oscuro para visibilidad */
             border: none !important; 
             font-size: 0.9rem; 
             font-weight: 900 !important; 
             cursor: pointer; 
-            transition: color 0.2s ease;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
             padding: 2px 8px;
         }
         .btn-del:hover { 
@@ -60,6 +64,9 @@
 .btn-del.confirm-delete {
     transform: scale(1.3); /* Se agranda un poquito para advertir */
     color: var(--danger) !important;
+
+    background-color: #fef2f2 !important; /* Rojo pastel más intenso y visible */
+    border-radius: 6px; /* Bordes redondeados para el fondo */
 }
 
     </style>
