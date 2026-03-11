@@ -1,22 +1,23 @@
-const CACHE_NAME = 'checklist-pro-v4.5'; // Cambiá este número siempre que actualices
+const CACHE_NAME = 'checklist-pro-v1';
 const ASSETS = [
   "/Checklist4Pro/",
-  "/Checklist4Pro/index.html",
-  "/Checklist4Pro/manifest.json",
+  "./manifest.json",
+  // Agrega aquí las rutas de tus iconos si los nombres son diferentes:
   "/Checklist4Pro/android-chrome-192x192.png",
   "/Checklist4Pro/android-chrome-512x512.png",
   "/Checklist4Pro/maskable-icon-512x512.png"
 ];
 
-// Instalación
+// Instala el Service Worker y guarda los archivos en caché
 self.addEventListener('install', (event) => {
-  self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(ASSETS))
+      .then(() => self.skipWaiting())
   );
 });
 
-// Activación y limpieza de versiones viejas
+// Activa el Service Worker y limpia cachés antiguos
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -27,11 +28,10 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// ESTRATEGIA: Intentar Red primero, si falla usar Caché
+// Responde con los archivos del caché cuando no hay conexión
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    fetch(event.request).catch(() => {
-      return caches.match(event.request);
-    })
+    caches.match(event.request)
+      .then((response) => response || fetch(event.request))
   );
 });
