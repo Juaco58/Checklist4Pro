@@ -43,5 +43,6 @@ self.addEventListener('message', (event) => {
   }
 });
 
-// Esta es la Versión 3.2 (incorpora tachito en borrado de línea con fondo mas resaltado)
+// Esta es la Versión 3.3 (incorpora tachito en borrado de línea con fondo mas resaltado t total flotante abajo
+)
 // Al menos el número de Versión de la línea anterior debe cambiarse con cada nueva versión del Index.html

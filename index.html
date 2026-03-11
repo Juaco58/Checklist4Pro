@@ -53,9 +53,47 @@
             color: var(--danger) !important; 
         }
 
-        .total-container { padding: 18px; background: var(--dark); color: white; border-radius: 12px; display: flex; justify-content: space-between; font-size: 1.4rem; font-weight: bold; }
-        .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .btn-action { padding: 12px; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; }
+ .total-container { 
+    padding: 12px 18px; /* Menos espacio arriba y abajo */
+    background: var(--dark); 
+    color: white; 
+    border-radius: 12px; 
+    display: flex; 
+    justify-content: space-between; 
+    font-size: 1.1rem; /* Tamaño más balanceado para móviles */
+    font-weight: bold;
+    position: sticky;
+    bottom: 125px; 
+    z-index: 101;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+}
+
+.actions-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 10px; 
+    padding: 10px 0 5px 0;
+    margin-top: 0;
+    /* LO PEGAMOS AL BORDE FINAL */
+    position: sticky;
+    bottom: 0;
+    background: var(--bg); /* Usamos el color de fondo de la app para que no transparente */
+    z-index: 100;
+}
+
+.btn-action { 
+    padding: 12px; 
+    font-size: 0.85rem; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 8px; 
+    border-radius: 10px; 
+    border: none; 
+    cursor: pointer; 
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
     
     .btn-del {
     transition: all 0.2s ease;
