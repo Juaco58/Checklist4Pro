@@ -56,14 +56,6 @@
             border: 1px solid #e2e8f0;
         }
 
-        .counter-badge {
-            background: #dbeafe; color: var(--primary);
-            padding: 8px 18px; border-radius: 50px;
-            font-weight: 800; font-size: 0.9rem;
-            display: inline-flex; align-items: center; gap: 8px;
-            margin-bottom: 25px;
-        }
-
         .button-group {
             display: flex; gap: 15px; justify-content: center;
             flex-wrap: wrap; margin-bottom: 40px;
@@ -113,11 +105,8 @@
 
     <img src="https://juaco58.github.io/Checklist4Pro/Pantalla de Inicio con ALIAS.png" alt="Vista Previa" class="hero-img"><br>
 
-    
-
     <div class="button-group">
-        <!-- El botón llama a registrarDescarga() y luego abre el link -->
-        <a href="https://juaco58.github.io/Checklist4Pro/index.html" class="btn btn-main" onclick="registrarDescarga()">
+        <a href="https://juaco58.github.io/Checklist4Pro/index.html" class="btn btn-main">
             <i class="fa-solid fa-circle-arrow-down"></i> Descargar App
         </a>
         <a href="https://juaco58.github.io/Checklist4Pro/InfoChecklist4Pro.pdf" class="btn btn-secondary" target="_blank">
@@ -150,8 +139,16 @@
     </div>
 </div>
 
-
-
+<script>
+    function copiarEnlace() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+            const span = document.getElementById('txt-copy');
+            span.innerText = " ¡Copiado!";
+            setTimeout(() => { span.innerText = " Copiar Link"; }, 2000);
+        });
+    }
+</script>
 
 </body>
 </html>
