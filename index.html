@@ -253,24 +253,87 @@
 
     inputItem.onkeypress = (e) => { if(e.key === 'Enter') btnAdd.click(); };
 
+           // --- NUEVA FUNCIÓN DE COMPARTIR Y BACKUP (MODIFICADA) ---
     document.getElementById('btn-share').onclick = async () => {
-        let text = "*LISTA DE COMPRA* 🛒\n\n";
-        document.querySelectorAll('#list-container li').forEach(li => {
-            const isChecked = li.classList.contains('checked');
-            const hasPrice = li.classList.contains('has-price');
-            const name = li.querySelector('.item-name').textContent;
-            const price = li.querySelector('.input-price').value;
-            let status = hasPrice ? "🔴" : (isChecked ? "✅" : "⬜");
-            let nameFmt = hasPrice ? `~${name}~ *($${price})*` : name;
-            text += `${status} ${nameFmt}\n`;
-        });
-        text += `\n*TOTAL: ${grandTotalDisplay.textContent}*`;
-        if (navigator.share) {
-            try { await navigator.share({ title: 'Mi Lista', text: text }); } catch(e) {}
-        } else {
-            navigator.clipboard.writeText(text); alert("✅ ¡Copiado!");
+        // Mostramos el menú para elegir qué hacer
+        const opcion = prompt("Escribí el número de opción elegido y picá [Aceptar]\n          (repetir si no responde)\n\n1. Compartir Texto Plano (Ir al menú de Apps)\n2. Guardar archivo de lista (Backup)\n3. Abrir archivo de lista (Restaurar)");
+
+
+        if (opcion === "1") {
+            // Lógica de compartir TEXTO PLANO (Web Share API)
+            let text = "🛒 *MI LISTA DE COMPRA*\n\n";
+            document.querySelectorAll('#list-container li').forEach(li => {
+                const isChecked = li.classList.contains('checked');
+                const hasPrice = li.classList.contains('has-price');
+                const name = li.querySelector('.item-name').textContent;
+                const price = li.querySelector('.input-price').value;
+                
+                // Formato visual del texto
+                let status = hasPrice ? "🔴" : (isChecked ? "✅" : "⬜");
+                let nameFmt = hasPrice ? `${name} ($${price})` : name;
+                text += `${status} ${nameFmt}\n`;
+            });
+            text += `\n💰 *TOTAL: ${grandTotalDisplay.textContent}*`;
+            
+            // Abrir el menú nativo del celular
+            if (navigator.share) {
+                try { 
+                    await navigator.share({ 
+                        title: 'Mi Lista de Compra', 
+                        text: text 
+                    }); 
+                } catch(e) {
+                    console.log("Compartir cancelado");
+                }
+            } else {
+                // Fallback: Si el navegador no lo soporta, copia al portapapeles
+                await navigator.clipboard.writeText(text); 
+                alert("✅ ¡Texto copiado al portapapeles!");
+            }
+        } 
+        
+        else if (opcion === "2") {
+            // EXPORTAR: Crea un archivo .json con los datos actuales
+            const data = localStorage.getItem('marketListV3');
+            if (!data || data === "[]") return alert("La lista está vacía.");
+            
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            const fecha = new Date().toISOString().slice(0,10);
+            a.href = url;
+            a.download = `lista_compra_${fecha}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } 
+        
+        else if (opcion === "3") {
+            // IMPORTAR: Abre el selector de archivos del celu/PC
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = readerEvent => {
+                    try {
+                        const content = readerEvent.target.result;
+                        JSON.parse(content); 
+                        localStorage.setItem('marketListV3', content);
+                        window.location.reload(); 
+                    } catch(err) {
+                        alert("❌ Error: El archivo no es válido.");
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
         }
     };
+
+
 
     document.getElementById('btn-reset-checks').onclick = () => {
         document.querySelectorAll('#list-container li').forEach(li => li.classList.remove('checked'));
