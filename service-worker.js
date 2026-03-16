@@ -1,4 +1,4 @@
-const CACHE_NAME = 'checklist-pro-v7.4';
+const CACHE_NAME = 'checklist-pro-v7.5';
 const ASSETS = [
   "/Checklist4Pro/",
   "./manifest.json",
