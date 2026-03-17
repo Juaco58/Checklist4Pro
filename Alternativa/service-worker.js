@@ -5,16 +5,15 @@ const ASSETS = [
   // Iconos en la carpeta superior (Root)
   './android-chrome-192x192.png',
   './android-chrome-512x512.png',
-  './maskable-icon-512x512-alt.png'
+  './maskable-icon-512x512-alt-v2.png'
 ];
 
 // Instala el Service Worker y guarda los archivos en caché
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(ASSETS))
-      .then(() => self.skipWaiting())
-  );
+self.addEventListener('install', event => {
+    self.skipWaiting(); // <--- OBLIGATORIO para que el cartel funcione
+    event.waitUntil(
+        caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
+    );
 });
 
 // Activa el Service Worker y limpia cachés antiguos
