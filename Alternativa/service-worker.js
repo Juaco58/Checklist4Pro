@@ -1,12 +1,12 @@
-const CACHE_NAME = 'checklist-pro-alternativa v1.0';
+const CACHE_NAME = 'checklist-pro-alternativa-v1.0';
 const ASSETS = [
-  "./",
-  "./index.html",
-  "./manifest.json",
+ '/Checklist4Pro/Alternativa/',
+  '/Checklist4Pro/Alternativa/index.html',
+  '/Checklist4Pro/Alternativa/manifest.json',
   // Iconos en la carpeta superior (Root)
-  '../android-chrome-192x192.png',
-  '../android-chrome-512x512.png',
-  '../maskable-icon-512x512.png'
+  '/Checklist4Pro/android-chrome-192x192.png',
+  '/Checklist4Pro/android-chrome-512x512.png',
+  '/Checklist4Pro/maskable-icon-512x512.png'
 ];
 
 // Instala el Service Worker y guarda los archivos en caché
