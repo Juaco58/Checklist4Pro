@@ -216,11 +216,11 @@
 </script>
 <script>
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./service-worker.js') // Sin los puntos anteriores
+        navigator.serviceWorker.register('./service-worker.js')
         .then(reg => {
             console.log('SW de Alternativa registrado');
         })
-        .catch(err => console.error('Error:', err));
+        .catch(err => console.error('Error SW:', err));
     }
 </script>
 
