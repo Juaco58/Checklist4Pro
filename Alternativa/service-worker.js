@@ -1,6 +1,5 @@
 const CACHE_NAME = 'checklist-pro-alternativa-v1.1';
 const ASSETS = [
- './',
   './index.html',
   './manifest.json',
   // Iconos en la carpeta superior (Root)
