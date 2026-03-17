@@ -1,8 +1,8 @@
 {
   "id": "/Checklist4Pro/Alternativa/",
   "manifest_version": 2,
-  "name": "Checklist 4 Pro",
-  "short_name": "Checklist",
+  "name": "Checklist 4 Pro Plus",
+  "short_name": "Checklist Plus",
   "description": "Mi lista de compras profesional v2",
   "start_url": "/Checklist4Pro/Alternativa/index.html",
   "scope": "./",
@@ -24,7 +24,7 @@
       "purpose": "any"
     },
     {
-      "src": "./maskable-icon-512x512.png",
+      "src": "./maskable-icon-512x512-alt.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
