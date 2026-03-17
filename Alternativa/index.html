@@ -214,5 +214,16 @@
         if (saved) JSON.parse(saved).forEach(i => createItem(i.name, i.price, i.qty));
     };
 </script>
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./service-worker.js') // Sin los puntos anteriores
+        .then(reg => {
+            console.log('SW de Alternativa registrado');
+        })
+        .catch(err => console.error('Error:', err));
+    }
+</script>
+
 </body>
 </html>
+
