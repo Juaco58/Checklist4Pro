@@ -16,16 +16,54 @@
         .btn-add { background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; padding: 0 20px; }
         
         ul { list-style: none; padding: 0; margin: 20px 0; }
-        li { display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #f0f0f0; padding: 8px; margin-bottom: 8px; border-radius: 10px; }
-
+li { 
+    display: flex; 
+    align-items: center; 
+    gap: 6px;       /* Bajamos un pelín el espacio entre piezas */
+    padding: 8px 4px; /* Menos margen a los costados del renglón */
+    background: #fff; 
+    border: 1px solid #f0f0f0; 
+    margin-bottom: 8px; 
+    border-radius: 10px; 
+}
         .move-controls { display: flex; flex-direction: column; gap: 2px; }
         .btn-move { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 2px 6px; font-size: 0.7rem; cursor: pointer; color: #64748b; }
 
-        .qty-input { width: 45px !important; text-align: center; font-weight: bold; border: 2px solid #cbd5e0 !important; padding: 8px !important; }
-        .input-price { width: 85px !important; text-align: right; font-weight: bold; border: 2px solid #cbd5e0 !important; }
-        .active-border { border-color: var(--success) !important; color: var(--success); background: #f0fff4; }
+.qty-input { 
+    width: 35px !important;       /* Mantenemos el ancho compacto */
+    text-align: center; 
+    font-weight: 800 !important;  /* "800" es un bold más intenso que resalta bien */
+    border: 2px solid #cbd5e0 !important; 
+    padding: 4px !important; 
+    flex-shrink: 0;
+    font-size: 0.85rem !important;
+    color: var(--dark);           /* Usamos el color oscuro para que contraste más */
+}
 
-        .item-name { flex: 1; font-weight: 500; color: #4a5568; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.input-price { 
+    width: 75px !important;       /* Lo achicamos de 85 a 75 */
+    text-align: right; 
+    font-weight: bold; 
+    border: 2px solid #cbd5e0 !important; 
+    flex-shrink: 0; 
+    /* Agregamos estas dos líneas clave: */
+    padding: 6px 4px !important;  /* 6px arriba/abajo, solo 4px a los costados */
+    font-size: 0.9rem !important; /* Letra apenas más chica para que entre en 75px */
+}
+       .active-border { border-color: var(--success) !important; color: var(--success); background: #f0fff4; }
+
+/* 2. El ajuste clave para el nombre */
+.item-name { 
+    flex: 1; 
+    font-weight: 500; 
+    color: #4a5568; 
+    white-space: normal;    
+    word-break: break-word; 
+    line-height: 1.2;
+    padding: 0 4px; /* Un poquito de aire pero sin exagerar */
+    min-width: 0;   /* Esto es lo que permite que el flex funcione bien en el celu */
+    font-size: 0.9rem;
+}
         li.has-price .item-name { text-decoration: line-through; color: #a0aec0; }
 
         .btn-del { min-width: 32px; background: none; color: #7f8c8d; border: none; font-size: 1rem; font-weight: 900; cursor: pointer; }
