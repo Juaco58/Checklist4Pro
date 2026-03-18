@@ -255,28 +255,14 @@ li {
     };
 </script>
 <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js').then(reg => {
-        
-        // Esta parte detecta si hay un SW nuevo instalándose
-        reg.addEventListener('updatefound', () => {
-          const newWorker = reg.installing;
-          newWorker.addEventListener('statechange', () => {
-            // Si el nuevo SW se terminó de instalar y ya había uno antes...
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              if (confirm("¡Nueva versión disponible! ¿Querés actualizar ahora para ver los cambios?")) {
-                window.location.reload();
-              }
-            }
-          });
-        });
-
-      }).catch(err => console.log("Error al registrar SW:", err));
-    });
-  }
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./service-worker.js')
+        .then(reg => {
+            console.log('SW de Alternativa registrado');
+        })
+        .catch(err => console.error('Error SW:', err));
+    }
 </script>
-
 
 </body>
 </html>
