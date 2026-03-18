@@ -7,74 +7,189 @@
     <link rel="manifest" href="manifest.json">
 
     <style>
-        :root { --primary: #2972a3; --success: #117d3e; --danger: #c21c0a; --warning: #915b05; --dark: #20558a; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 15px; margin: 0; }
-        .card { background: white; width: 100%; max-width: 450px; padding: 1.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
-        h2 { text-align: center; color: var(--dark); margin: 10px 0; }
-        .add-section { display: flex; gap: 8px; margin-bottom: 15px; }
-        input[type="text"], input[type="number"] { padding: 12px; border: 2px solid #edf2f7; border-radius: 10px; outline: none; font-size: 1rem; width: 100%; transition: all 0.2s; }
-        .btn-add { background: var(--primary); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; padding: 0 20px; }
-        
-        ul { list-style: none; padding: 0; margin: 20px 0; }
-li { 
-    display: flex; 
-    align-items: center; 
-    gap: 6px;       /* Bajamos un pelín el espacio entre piezas */
-    padding: 8px 4px; /* Menos margen a los costados del renglón */
-    background: #fff; 
-    border: 1px solid #f0f0f0; 
-    margin-bottom: 8px; 
-    border-radius: 10px; 
-}
-        .move-controls { display: flex; flex-direction: column; gap: 2px; }
-        .btn-move { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 2px 6px; font-size: 0.7rem; cursor: pointer; color: #64748b; }
+    :root { --primary: #2972a3; --success: #117d3e; --danger: #c21c0a; --warning: #915b05; --dark: #20558a; --bg: #f4f7f6; }
+    
+    body { 
+        font-family: 'Segoe UI', sans-serif; 
+        background-color: var(--bg); 
+        display: flex; 
+        justify-content: center; 
+        height: 100vh; 
+        margin: 0; 
+        padding: 10px; 
+        overflow: hidden; 
+        box-sizing: border-box;
+    }
 
+    .card { 
+        background: white; 
+        width: 100%; 
+        max-width: 450px; 
+        padding: 1.2rem; 
+        border-radius: 16px; 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        display: flex; 
+        flex-direction: column; 
+        height: 100%; 
+        box-sizing: border-box;
+    }
+
+    h2 { text-align: center; color: var(--dark); margin: 10px 0 15px 0; font-size: 1.8rem; }
+
+    /* SECCIÓN AÑADIR (La que buscabas) */
+    .add-section { display: flex; gap: 8px; margin-bottom: 15px; flex-shrink: 0; }
+    
+    #new-item { 
+        padding: 12px; 
+        border: 2px solid #edf2f7; 
+        border-radius: 10px; 
+        outline: none; 
+        font-size: 1.1rem; 
+        width: 100%; 
+    }
+
+    .btn-add { 
+        background: var(--dark); 
+        color: white; 
+        border: none; 
+        border-radius: 10px; 
+        cursor: pointer; 
+        font-weight: bold; 
+        padding: 0 20px; 
+        font-size: 1rem;
+    }
+
+    /* LISTA CON SCROLL PROPIO */
+    #list-container { 
+        flex: 1; 
+        overflow-y: auto; 
+        margin: 10px 0; 
+        padding: 0; 
+        list-style: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    li { 
+        display: flex; 
+        align-items: center; 
+        gap: 6px; 
+        padding: 8px 4px; 
+        background: #fff; 
+        border: 1px solid #f0f0f0; 
+        margin-bottom: 8px; 
+        border-radius: 10px; 
+    }
+
+    /* BLOQUE INFERIOR FIJO */
+    .footer-fix { background: white; padding-top: 10px; border-top: 2px solid #edf2f7; flex-shrink: 0; }
+
+    .total-container { 
+        display: flex; 
+        justify-content: space-between; 
+        padding: 15px; 
+        background: var(--dark) !important; 
+        color: white !important; 
+        border-radius: 12px; 
+        font-size: 1.3rem; 
+        font-weight: bold; 
+        margin-bottom: 10px;
+    }
+
+    .actions-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+
+    .btn-action { 
+        padding: 8px 2px; 
+        font-size: 0.75rem; 
+        border-radius: 10px; 
+        border: none; 
+        cursor: pointer; 
+        font-weight: bold; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center; 
+        min-height: 52px;
+    }
+
+    .btn-action:nth-child(1), .btn-action:nth-child(2), .btn-action:nth-child(3) { grid-column: span 2; }
+    .btn-action:nth-child(4), .btn-action:nth-child(5) { grid-column: span 3; }
+
+    /* ESTILOS DE EDICIÓN Y OTROS */
+    .editing-active li { cursor: move; border: 2px dashed var(--primary) !important; background: #f0f9ff; }
+    .editing-active .move-controls, .editing-active .btn-del, .editing-active .input-price, .editing-active .qty-input { opacity: 0.3; pointer-events: none; }
+    .dragging { opacity: 0.5; background: var(--primary) !important; }
+    
+    /* ESTADO NORMAL: Para el 0 o cuando está vacío */
 .qty-input { 
-    width: 35px !important;       /* Mantenemos el ancho compacto */
+    width: 35px !important; 
     text-align: center; 
-    font-weight: 800 !important;  /* "800" es un bold más intenso que resalta bien */
     border: 2px solid #cbd5e0 !important; 
     padding: 4px !important; 
-    flex-shrink: 0;
     font-size: 0.85rem !important;
-    color: var(--dark);           /* Usamos el color oscuro para que contraste más */
+    color: #718096 !important; /* Gris suave */
+    font-weight: 400 !important; /* FINITO */
+    background-color: white !important;
+}
+    .input-price { width: 75px; text-align: right; font-weight: bold; border: 2px solid #cbd5e0; border-radius: 6px; }
+    .item-name { flex: 1; font-size: 0.9rem; color: #4a5568; word-break: break-word; }
+    .has-price .item-name { text-decoration: line-through; color: #a0aec0; }
+   .active-border { 
+    border-color: #117d3e !important; 
+    background-color: #e6fffa !important; 
+    color: #117d3e !important; 
+    border-width: 2.5px !important;
+    font-weight: 900 !important; /* <--- ACÁ SE PONE GORDO EL NÚMERO */
+}
+.active-border::placeholder {
+    color: #117d3e;
+    opacity: 0.7;
+}
+    .btn-del { background: none; border: none; font-weight: bold; color: #7f8c8d; cursor: pointer; }
+    .confirm-delete { color: var(--danger) !important; }
+
+    /* ARREGLO DE TAMAÑOS DE LISTA */
+.move-controls { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 2px; 
+}
+
+.btn-move { 
+    background: #f8fafc; 
+    border: 1px solid #e2e8f0; 
+    border-radius: 4px; 
+    padding: 2px 6px; 
+    font-size: 0.7rem !important; 
+    cursor: pointer; 
+    color: #64748b; 
+}
+
+.qty-input { 
+    width: 35px !important; 
+    font-size: 0.85rem !important; 
+    font-weight: 800 !important; 
+    padding: 4px !important; 
+}
+
+.item-name { 
+    font-size: 0.9rem !important; 
+    font-weight: 500 !important; 
 }
 
 .input-price { 
-    width: 75px !important;       /* Lo achicamos de 85 a 75 */
-    text-align: right; 
-    font-weight: bold; 
-    border: 2px solid #cbd5e0 !important; 
-    flex-shrink: 0; 
-    /* Agregamos estas dos líneas clave: */
-    padding: 6px 4px !important;  /* 6px arriba/abajo, solo 4px a los costados */
-    font-size: 0.9rem !important; /* Letra apenas más chica para que entre en 75px */
+    width: 75px !important; 
+    font-size: 0.9rem !important; 
+    padding: 6px 4px !important; 
 }
-       .active-border { border-color: var(--success) !important; color: var(--success); background: #f0fff4; }
-
-/* 2. El ajuste clave para el nombre */
-.item-name { 
-    flex: 1; 
-    font-weight: 500; 
-    color: #4a5568; 
-    white-space: normal;    
-    word-break: break-word; 
-    line-height: 1.2;
-    padding: 0 4px; /* Un poquito de aire pero sin exagerar */
-    min-width: 0;   /* Esto es lo que permite que el flex funcione bien en el celu */
-    font-size: 0.9rem;
+/* Estilo base para cuando está en cero o vacío */
+.qty-input:not(.active-border) {
+    font-weight: 400 !important; /* Finita */
+    color: #a0aec0 !important;   /* Gris suave */
+    border-color: #cbd5e0 !important; /* Borde original */
+    background: white !important;
 }
-        li.has-price .item-name { text-decoration: line-through; color: #a0aec0; }
+</style>
 
-        .btn-del { min-width: 32px; background: none; color: #7f8c8d; border: none; font-size: 1rem; font-weight: 900; cursor: pointer; }
-        .btn-del.confirm-delete { color: var(--danger) !important; transform: scale(1.2); }
-
-        .total-container { padding: 15px; background: var(--dark); color: white; border-radius: 12px; display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; position: sticky; bottom: 130px; z-index: 101; }
-        .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px 0; position: sticky; bottom: 0; background: var(--bg); z-index: 100; }
-        .btn-action { padding: 12px; font-size: 0.85rem; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        
-        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-    </style>
 </head>
 <body>
     <div class="card">
@@ -83,17 +198,29 @@ li {
             <input id="new-item" placeholder="Ej: Café, Pan..." type="text">
             <button class="btn-add" id="btn-add">Añadir</button>
         </div>
-        <ul id="list-container"></ul>
-        <div class="total-container"><span>TOTAL:</span><span id="grand-total">$0.00</span></div>
+           <ul id="list-container"></ul>
+
+    <!-- NUEVO ENVOLTORIO PARA QUE FLOTEN JUNTOS -->
+    <div class="footer-fix">
+        <div class="total-container">
+            <span>TOTAL:</span>
+            <span id="grand-total">$0.00</span>
+        </div>
+
         <div class="actions-grid">
-            <button class="btn-action" style="background:#edf2f7; color:var(--dark)" id="btn-share">📤 Compartir</button>
-            <button class="btn-action" style="background:#fffaf0; color:var(--warning)" id="btn-reset-prices">💰 Limpiar $</button>
+            <button class="btn-action" style="background:#e0f2fe; color:var(--primary)" id="btn-edit-mode">✏️ Orden</button>
             <button class="btn-action" style="background:#e8f5e9; color:var(--success)" id="btn-reset-checks">🔄 Desmarcar</button>
+            <button class="btn-action" style="background:#fffaf0; color:var(--warning)" id="btn-reset-prices">💰 Limpiar $</button>
+            
+            <button class="btn-action" style="background:#edf2f7; color:var(--dark)" id="btn-share">📤 Backup/Envío</button>
             <button class="btn-action" style="background:#fff5f5; color:var(--danger)" id="btn-clear">🗑️ Vaciar Lista</button>
         </div>
-        <footer style="text-align: center; font-size: small; padding-top: 20px; color: #718096;">
-            © Joaquín Luis Navarro | Alias: <b>juaco58.arg.mp</b>
-        </footer>
+    </div>
+
+    <footer style="text-align: center; font-size: small; padding-top: 20px; color: #718096;">
+        © Joaquín Luis Navarro | Alias: <b>juaco58.arg.mp</b>
+    </footer>
+
     </div>
 
 <script>
@@ -195,6 +322,71 @@ li {
 
     btnAdd.onclick = () => { if(inputItem.value.trim()) { createItem(inputItem.value.trim()); inputItem.value = ""; } };
     inputItem.onkeypress = (e) => { if(e.key === 'Enter') btnAdd.click(); };
+
+    let isEditing = false;
+    const btnEdit = document.getElementById('btn-edit-mode');
+
+    btnEdit.onclick = () => {
+        isEditing = !isEditing;
+        if (isEditing) {
+            document.body.classList.add('editing-active');
+            btnEdit.textContent = "✅ Finalizar";
+            btnEdit.style.background = "var(--success)";
+            btnEdit.style.color = "white";
+            habilitarDragAndDrop();
+        } else {
+            document.body.classList.remove('editing-active');
+            btnEdit.textContent = "✏️ Reordenar";
+            btnEdit.style.background = "#e0f2fe";
+            btnEdit.style.color = "var(--primary)";
+            deshabilitarDragAndDrop();
+            save(); // Guardamos el nuevo orden en el localStorage
+        }
+    };
+
+    function habilitarDragAndDrop() {
+    const items = listContainer.querySelectorAll('li');
+    items.forEach(item => {
+        item.draggable = true;
+        item.ondragstart = (e) => {
+            item.classList.add('dragging');
+            // Necesario para que algunos navegadores móviles inicien el drag
+            e.dataTransfer.effectAllowed = 'move';
+        };
+        item.ondragend = () => {
+            item.classList.remove('dragging');
+            save(); // Guardamos preventivamente al soltar
+        };
+    });
+
+    listContainer.ondragover = (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        
+        const draggingItem = document.querySelector('.dragging');
+        if (!draggingItem) return;
+
+        // Buscamos el elemento sobre el que estamos pasando
+        const target = e.target.closest('li');
+        
+        if (target && target !== draggingItem) {
+            const rect = target.getBoundingClientRect();
+            const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
+            
+            // Insertamos antes o después del target según la posición del mouse
+            listContainer.insertBefore(draggingItem, next ? target.nextSibling : target);
+        } else if (e.clientY > listContainer.getBoundingClientRect().bottom) {
+            // Si arrastramos bien al final, lo mandamos al último lugar
+            listContainer.appendChild(draggingItem);
+        }
+    };
+}
+
+    function deshabilitarDragAndDrop() {
+        listContainer.querySelectorAll('li').forEach(li => li.draggable = false);
+        listContainer.ondragover = null;
+    }
+
 
     document.getElementById('btn-share').onclick = async () => {
         const opcion = prompt("Escribí el número de opción elegido y picá [Aceptar]\n\n          ⚠️ (REINTENTAR SI NO RESPONDE) ⚠️\n\n1. Compartir Texto Plano (Ir al menú de Apps)\n2. Guardar archivo de lista (Backup)\n3. Abrir archivo de lista (Restaurar)");
