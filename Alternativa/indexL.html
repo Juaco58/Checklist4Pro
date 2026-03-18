@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Checklist 4 Pro 🛒</title>
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+    :root { --primary: #2972a3; --success: #117d3e; --danger: #c21c0a; --warning: #915b05; --dark: #20558a; --bg: #f4f7f6; }
+    
+    body { 
+        font-family: 'Segoe UI', sans-serif; 
+        background-color: var(--bg); 
+        display: flex; 
+        justify-content: center; 
+        height: 100vh; 
+        margin: 0; 
+        padding: 10px; 
+        overflow: hidden; 
+        box-sizing: border-box;
+    }
+
+    .card { 
+        background: white; 
+        width: 100%; 
+        max-width: 450px; 
+        padding: 1.2rem; 
+        border-radius: 16px; 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        display: flex; 
+        flex-direction: column; 
+        height: 100%; 
+        box-sizing: border-box;
+    }
+
+    h2 { text-align: center; color: var(--dark); margin: 10px 0 15px 0; font-size: 1.8rem; }
+
+    /* SECCIÓN AÑADIR (La que buscabas) */
+    .add-section { display: flex; gap: 8px; margin-bottom: 15px; flex-shrink: 0; }
+    
+    #new-item { 
+        padding: 12px; 
+        border: 2px solid #edf2f7; 
+        border-radius: 10px; 
+        outline: none; 
+        font-size: 1.1rem; 
+        width: 100%; 
+    }
+
+    .btn-add { 
+        background: var(--dark); 
+        color: white; 
+        border: none; 
+        border-radius: 10px; 
+        cursor: pointer; 
+        font-weight: bold; 
+        padding: 0 20px; 
+        font-size: 1rem;
+    }
+
+    /* LISTA CON SCROLL PROPIO */
+    #list-container { 
+        flex: 1; 
+        overflow-y: auto; 
+        margin: 10px 0; 
+        padding: 0; 
+        list-style: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    li { 
+        display: flex; 
+        align-items: center; 
+        gap: 6px; 
+        padding: 8px 4px; 
+        background: #fff; 
+        border: 1px solid #f0f0f0; 
+        margin-bottom: 8px; 
+        border-radius: 10px; 
+    }
+
+    /* BLOQUE INFERIOR FIJO */
+    .footer-fix { background: white; padding-top: 10px; border-top: 2px solid #edf2f7; flex-shrink: 0; }
+
+    .total-container { 
+        display: flex; 
+        justify-content: space-between; 
+        padding: 15px; 
+        background: var(--dark) !important; 
+        color: white !important; 
+        border-radius: 12px; 
+        font-size: 1.3rem; 
+        font-weight: bold; 
+        margin-bottom: 10px;
+    }
+
+    .actions-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+
+    .btn-action { 
+        padding: 8px 2px; 
+        font-size: 0.75rem; 
+        border-radius: 10px; 
+        border: none; 
+        cursor: pointer; 
+        font-weight: bold; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center; 
+        min-height: 52px;
+    }
+
+    .btn-action:nth-child(1), .btn-action:nth-child(2), .btn-action:nth-child(3) { grid-column: span 2; }
+    .btn-action:nth-child(4), .btn-action:nth-child(5) { grid-column: span 3; }
+
+    /* ESTILOS DE EDICIÓN Y OTROS */
+    .editing-active li { cursor: move; border: 2px dashed var(--primary) !important; background: #f0f9ff; }
+    .editing-active .move-controls, .editing-active .btn-del, .editing-active .input-price, .editing-active .qty-input { opacity: 0.3; pointer-events: none; }
+    .dragging { opacity: 0.5; background: var(--primary) !important; }
+    
+    /* ESTADO NORMAL: Para el 0 o cuando está vacío */
+.qty-input { 
+    width: 35px !important; 
+    text-align: center; 
+    border: 2px solid #cbd5e0 !important; 
+    padding: 4px !important; 
+    font-size: 0.85rem !important;
+    color: #718096 !important; /* Gris suave */
+    font-weight: 400 !important; /* FINITO */
+    background-color: white !important;
+}
+    .input-price { width: 75px; text-align: right; font-weight: bold; border: 2px solid #cbd5e0; border-radius: 6px; }
+    .item-name { flex: 1; font-size: 0.9rem; color: #4a5568; word-break: break-word; }
+    .has-price .item-name { text-decoration: line-through; color: #a0aec0; }
+   .active-border { 
+    border-color: #117d3e !important; 
+    background-color: #e6fffa !important; 
+    color: #117d3e !important; 
+    border-width: 2.5px !important;
+    font-weight: 900 !important; /* <--- ACÁ SE PONE GORDO EL NÚMERO */
+}
+.active-border::placeholder {
+    color: #117d3e;
+    opacity: 0.7;
+}
+    .btn-del { background: none; border: none; font-weight: bold; color: #7f8c8d; cursor: pointer; }
+    .confirm-delete { color: var(--danger) !important; }
+
+    /* ARREGLO DE TAMAÑOS DE LISTA */
+.move-controls { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 2px; 
+}
+
+.btn-move { 
+    background: #f8fafc; 
+    border: 1px solid #e2e8f0; 
+    border-radius: 4px; 
+    padding: 2px 6px; 
+    font-size: 0.7rem !important; 
+    cursor: pointer; 
+    color: #64748b; 
+}
+
+.qty-input { 
+    width: 35px !important; 
+    font-size: 0.85rem !important; 
+    font-weight: 800 !important; 
+    padding: 4px !important; 
+}
+
+.item-name { 
+    font-size: 0.9rem !important; 
+    font-weight: 500 !important; 
+}
+
+.input-price { 
+    width: 75px !important; 
+    font-size: 0.9rem !important; 
+    padding: 6px 4px !important; 
+}
+/* Estilo base para cuando está en cero o vacío */
+.qty-input:not(.active-border) {
+    font-weight: 400 !important; /* Finita */
+    color: #a0aec0 !important;   /* Gris suave */
+    border-color: #cbd5e0 !important; /* Borde original */
+    background: white !important;
+}
+.editing-active li {
+    touch-action: none !important; /* Clave para que el celu no se confunda entre scroll y arrastre */
+    user-select: none !important;  /* Evita que se seleccione el texto al mantener apretado */
+    cursor: move;
+}
+
+.dragging {
+    opacity: 0.4;
+    background-color: var(--primary) !important;
+}
+
+</style>
+
+</head>
+<body>
+    <div class="card">
+        <h2>Mi Compra 🛒</h2>
+        <div class="add-section">
+            <input id="new-item" placeholder="Ej: Café, Pan..." type="text">
+            <button class="btn-add" id="btn-add">Añadir</button>
+        </div>
+           <ul id="list-container"></ul>
+
+    <!-- NUEVO ENVOLTORIO PARA QUE FLOTEN JUNTOS -->
+    <div class="footer-fix">
+        <div class="total-container">
+            <span>TOTAL:</span>
+            <span id="grand-total">$0.00</span>
+        </div>
+
+        <div class="actions-grid">
+            <button class="btn-action" style="background:#e0f2fe; color:var(--primary)" id="btn-edit-mode">✏️ Orden</button>
+            <button class="btn-action" style="background:#e8f5e9; color:var(--success)" id="btn-reset-checks">🔄 Desmarcar</button>
+            <button class="btn-action" style="background:#fffaf0; color:var(--warning)" id="btn-reset-prices">💰 Limpiar $</button>
+            
+            <button class="btn-action" style="background:#edf2f7; color:var(--dark)" id="btn-share">📤 Backup/Envío</button>
+            <button class="btn-action" style="background:#fff5f5; color:var(--danger)" id="btn-clear">🗑️ Vaciar Lista</button>
+        </div>
+    </div>
+
+    <footer style="text-align: center; font-size: small; padding-top: 20px; color: #718096;">
+        © Joaquín Luis Navarro | Alias: <b>juaco58.arg.mp</b>
+    </footer>
+
+    </div>
+
+<script>
+    const inputItem = document.getElementById('new-item');
+    const btnAdd = document.getElementById('btn-add');
+    const listContainer = document.getElementById('list-container');
+    const grandTotalDisplay = document.getElementById('grand-total');
+
+    function save() {
+        const items = Array.from(document.querySelectorAll('#list-container li')).map(li => ({
+            name: li.querySelector('.item-name').textContent,
+            qty: li.querySelector('.qty-input').value,
+            price: li.querySelector('.input-price').value
+        }));
+        localStorage.setItem('marketListV3', JSON.stringify(items));
+    }
+
+    function calculateTotal() {
+        let total = 0;
+        document.querySelectorAll('#list-container li').forEach(li => {
+            const qInp = li.querySelector('.qty-input');
+            const pInp = li.querySelector('.input-price');
+            let qty = parseInt(qInp.value) || 0;
+            let price = parseFloat(pInp.value) || 0;
+
+            qInp.classList.toggle('active-border', qty > 0);
+            pInp.classList.toggle('active-border', pInp.value !== "" && price > 0);
+
+            if (pInp.value !== "" && qty > 0 && price > 0) {
+                li.classList.add('has-price');
+                total += (qty * price);
+            } else {
+                li.classList.remove('has-price');
+                if (qty <= 0) pInp.value = "";
+            }
+        });
+        grandTotalDisplay.textContent = `$${total.toFixed(2)}`;
+        save();
+    }
+
+    function moveItem(btn, direction) {
+        const li = btn.closest('li');
+        if (direction === 'up') {
+            const prev = li.previousElementSibling;
+            if (prev) listContainer.insertBefore(li, prev);
+        } else {
+            const next = li.nextElementSibling;
+            if (next) listContainer.insertBefore(next, li);
+        }
+        save();
+    }
+
+    function createItem(name, price = "", qty = "") {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <div class="move-controls">
+                <button class="btn-move" onclick="moveItem(this, 'up')">▲</button>
+                <button class="btn-move" onclick="moveItem(this, 'down')">▼</button>
+            </div>
+            <input type="number" class="qty-input" value="${qty}" placeholder="0" min="0" inputmode="numeric">
+            <span class="item-name">${name}</span>
+            <input type="number" class="input-price" placeholder="0.00" value="${price}" inputmode="decimal">
+            <button class="btn-del">✕</button>
+        `;
+        
+        const qInp = li.querySelector('.qty-input');
+        const pInp = li.querySelector('.input-price');
+
+        qInp.oninput = calculateTotal;
+
+        // RESTRICCIÓN DE 2 DECIMALES
+        pInp.oninput = function() {
+            let val = this.value;
+            // Si hay un punto, limitamos lo que sigue a 2 dígitos
+            if (val.indexOf('.') !== -1) {
+                let parts = val.split('.');
+                if (parts[1].length > 2) {
+                    this.value = parts[0] + '.' + parts[1].slice(0, 2);
+                }
+            }
+            calculateTotal();
+        };
+
+        pInp.onblur = function() { 
+            if(this.value) this.value = parseFloat(this.value).toFixed(2); 
+            calculateTotal();
+        };
+        
+        li.querySelector('.btn-del').onclick = function() {
+            if (!this.classList.contains('confirm-delete')) {
+                this.classList.add('confirm-delete');
+                this.textContent = "🗑️";
+                setTimeout(() => { this.classList.remove('confirm-delete'); this.textContent = "✕"; }, 2000);
+            } else { li.remove(); calculateTotal(); }
+        };
+        listContainer.appendChild(li);
+        calculateTotal();
+    }
+
+    btnAdd.onclick = () => { if(inputItem.value.trim()) { createItem(inputItem.value.trim()); inputItem.value = ""; } };
+    inputItem.onkeypress = (e) => { if(e.key === 'Enter') btnAdd.click(); };
+
+    let isEditing = false;
+    const btnEdit = document.getElementById('btn-edit-mode');
+
+    btnEdit.onclick = () => {
+        isEditing = !isEditing;
+        if (isEditing) {
+            document.body.classList.add('editing-active');
+            btnEdit.textContent = "✅ Finalizar";
+            btnEdit.style.background = "var(--success)";
+            btnEdit.style.color = "white";
+            habilitarDragAndDrop();
+        } else {
+            document.body.classList.remove('editing-active');
+            btnEdit.textContent = "✏️ Reordenar";
+            btnEdit.style.background = "#e0f2fe";
+            btnEdit.style.color = "var(--primary)";
+            deshabilitarDragAndDrop();
+            save(); // Guardamos el nuevo orden en el localStorage
+        }
+    };
+
+    let scrollInterval;
+
+function habilitarDragAndDrop() {
+    const items = listContainer.querySelectorAll('li');
+    items.forEach(item => {
+        item.draggable = true;
+        item.ondragstart = (e) => {
+            item.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        };
+        item.ondragend = () => {
+            item.classList.remove('dragging');
+            clearInterval(scrollInterval); // Frenamos el scroll al soltar
+            save();
+        };
+    });
+
+    listContainer.ondragover = (e) => {
+        e.preventDefault();
+        const draggingItem = document.querySelector('.dragging');
+        if (!draggingItem) return;
+
+        // --- LÓGICA DE AUTO-SCROLL ---
+        const containerRect = listContainer.getBoundingClientRect();
+        const scrollSpeed = 5; // Velocidad del scroll
+        const edgeSize = 50;   // Pixeles de "zona sensible" al borde
+
+        clearInterval(scrollInterval);
+        
+        if (e.clientY < containerRect.top + edgeSize) {
+            // Scroll hacia ARRIBA
+            scrollInterval = setInterval(() => { listContainer.scrollTop -= scrollSpeed; }, 10);
+        } else if (e.clientY > containerRect.bottom - edgeSize) {
+            // Scroll hacia ABAJO
+            scrollInterval = setInterval(() => { listContainer.scrollTop += scrollSpeed; }, 10);
+        }
+
+        // --- POSICIONAMIENTO DEL ÍTEM ---
+        const target = e.target.closest('li');
+        if (target && target !== draggingItem) {
+            const rect = target.getBoundingClientRect();
+            const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
+            listContainer.insertBefore(draggingItem, next ? target.nextSibling : target);
+        }
+    };
+}
+
+
+    function deshabilitarDragAndDrop() {
+        listContainer.querySelectorAll('li').forEach(li => li.draggable = false);
+        listContainer.ondragover = null;
+    }
+
+
+    document.getElementById('btn-share').onclick = async () => {
+        const opcion = prompt("Escribí el número de opción elegido y picá [Aceptar]\n\n          ⚠️ (REINTENTAR SI NO RESPONDE) ⚠️\n\n1. Compartir Texto Plano (Ir al menú de Apps)\n2. Guardar archivo de lista (Backup)\n3. Abrir archivo de lista (Restaurar)");
+        if (opcion === "1") {
+            let text = "🛒 *MI COMPRA*\n\n";
+            document.querySelectorAll('#list-container li').forEach(li => {
+                const name = li.querySelector('.item-name').textContent;
+                const qty = li.querySelector('.qty-input').value || 0;
+                const p = li.querySelector('.input-price').value;
+                const ok = li.classList.contains('has-price') ? "✅" : "⬜";
+                text += `${ok} (${qty}) ${name} ${li.classList.contains('has-price') ? '$'+(qty*p).toFixed(2) : ''}\n`;
+            });
+            text += `\n💰 *TOTAL: ${grandTotalDisplay.textContent}*`;
+            if (navigator.share) await navigator.share({ text });
+            else { await navigator.clipboard.writeText(text); alert("Copiado!"); }
+        } else if (opcion === "2") {
+            const data = localStorage.getItem('marketListV3');
+            const blob = new Blob([data], { type: 'application/json' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+            a.download = "lista_compra.json"; a.click();
+        } else if (opcion === "3") {
+            const inp = document.createElement('input'); inp.type = 'file';
+            inp.onchange = e => {
+                const r = new FileReader();
+                r.onload = ev => {
+                    try {
+                        const content = ev.target.result;
+                        JSON.parse(content);
+                        localStorage.setItem('marketListV3', content);
+                        window.location.reload();
+                    } catch(err) { alert("Archivo inválido."); }
+                };
+                r.readAsText(e.target.files[0]);
+            }; inp.click();
+        }
+    };
+
+    document.getElementById('btn-reset-checks').onclick = () => {
+        if(confirm("¿Restablecer cantidades y precios a cero?")) {
+            document.querySelectorAll('.qty-input').forEach(i => i.value = "");
+            document.querySelectorAll('.input-price').forEach(i => i.value = "");
+            calculateTotal();
+        }
+    };
+
+    document.getElementById('btn-reset-prices').onclick = () => {
+        if(confirm("¿Limpiar solo los precios?")) {
+            document.querySelectorAll('.input-price').forEach(i => i.value = "");
+            calculateTotal();
+        }
+    };
+
+    document.getElementById('btn-clear').onclick = () => { if(confirm("¿Vaciar lista completa?")) { listContainer.innerHTML = ""; calculateTotal(); } };
+
+    window.onload = () => {
+        const saved = localStorage.getItem('marketListV3');
+        if (saved) JSON.parse(saved).forEach(i => createItem(i.name, i.price, i.qty));
+    };
+</script>
+<script>
+  navigator.serviceWorker.register('./service-worker.js').then(reg => {
+  // Si ya hay un SW esperando apenas cargamos la página
+  if (reg.waiting) {
+    alertarActualizacion(reg.waiting);
+  }
+
+  // Si se detecta un SW nuevo mientras la página está abierta
+  reg.addEventListener('updatefound', () => {
+    const newWorker = reg.installing;
+    newWorker.addEventListener('statechange', () => {
+      if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+        alertarActualizacion(newWorker);
+      }
+    });
+  });
+});
+
+function alertarActualizacion(worker) {
+  if (confirm("¡Hay una nueva versión! ¿Querés actualizar?")) {
+    worker.postMessage({ type: 'SKIP_WAITING' });
+    window.location.reload();
+  }
+}
+</script>
+
+
+</body>
+</html>
+
