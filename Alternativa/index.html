@@ -188,6 +188,17 @@
     border-color: #cbd5e0 !important; /* Borde original */
     background: white !important;
 }
+.editing-active li {
+    touch-action: none !important; /* Clave para que el celu no se confunda entre scroll y arrastre */
+    user-select: none !important;  /* Evita que se seleccione el texto al mantener apretado */
+    cursor: move;
+}
+
+.dragging {
+    opacity: 0.4;
+    background-color: var(--primary) !important;
+}
+
 </style>
 
 </head>
@@ -344,43 +355,53 @@
         }
     };
 
-    function habilitarDragAndDrop() {
+    let scrollInterval;
+
+function habilitarDragAndDrop() {
     const items = listContainer.querySelectorAll('li');
     items.forEach(item => {
         item.draggable = true;
         item.ondragstart = (e) => {
             item.classList.add('dragging');
-            // Necesario para que algunos navegadores móviles inicien el drag
             e.dataTransfer.effectAllowed = 'move';
         };
         item.ondragend = () => {
             item.classList.remove('dragging');
-            save(); // Guardamos preventivamente al soltar
+            clearInterval(scrollInterval); // Frenamos el scroll al soltar
+            save();
         };
     });
 
     listContainer.ondragover = (e) => {
         e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        
         const draggingItem = document.querySelector('.dragging');
         if (!draggingItem) return;
 
-        // Buscamos el elemento sobre el que estamos pasando
-        const target = e.target.closest('li');
+        // --- LÓGICA DE AUTO-SCROLL ---
+        const containerRect = listContainer.getBoundingClientRect();
+        const scrollSpeed = 5; // Velocidad del scroll
+        const edgeSize = 50;   // Pixeles de "zona sensible" al borde
+
+        clearInterval(scrollInterval);
         
+        if (e.clientY < containerRect.top + edgeSize) {
+            // Scroll hacia ARRIBA
+            scrollInterval = setInterval(() => { listContainer.scrollTop -= scrollSpeed; }, 10);
+        } else if (e.clientY > containerRect.bottom - edgeSize) {
+            // Scroll hacia ABAJO
+            scrollInterval = setInterval(() => { listContainer.scrollTop += scrollSpeed; }, 10);
+        }
+
+        // --- POSICIONAMIENTO DEL ÍTEM ---
+        const target = e.target.closest('li');
         if (target && target !== draggingItem) {
             const rect = target.getBoundingClientRect();
             const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
-            
-            // Insertamos antes o después del target según la posición del mouse
             listContainer.insertBefore(draggingItem, next ? target.nextSibling : target);
-        } else if (e.clientY > listContainer.getBoundingClientRect().bottom) {
-            // Si arrastramos bien al final, lo mandamos al último lugar
-            listContainer.appendChild(draggingItem);
         }
     };
 }
+
 
     function deshabilitarDragAndDrop() {
         listContainer.querySelectorAll('li').forEach(li => li.draggable = false);
