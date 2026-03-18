@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructivo Checklist PLUS</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 700px; margin: 0 auto; padding: 20px; background-color: #f4f7f6; }
+        .container { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h1 { color: #20558a; text-align: center; border-bottom: 2px solid #20558a; padding-bottom: 10px; }
+        h2 { color: #2972a3; border-left: 5px solid #2972a3; padding-left: 10px; margin-top: 30px; }
+        .highlight { color: #117d3e; font-weight: bold; }
+        .btn-ref { display: inline-block; padding: 4px 8px; background: #edf2f7; border-radius: 6px; font-weight: bold; font-size: 0.9em; color: #20558a; border: 1px solid #cbd5e0; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 12px; }
+        .footer { text-align: center; margin-top: 40px; font-size: 0.9em; color: #718096; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+        .badge { background: #20558a; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.8em; vertical-align: middle; }
+        @media (max-width: 600px) { body { padding: 10px; } .container { padding: 15px; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🛒 Checklist PLUS <span class="badge">v2.0</span></h1>
+    <p><strong>Checklist PLUS</strong> es una aplicación gratuita diseñada por <strong>Joaquín Navarro</strong>. Es la evolución de la versión <em>Checklist 4 Pro</em>, desarrollada en HTML y JavaScript con asistencia de Inteligencia Artificial (Gemini).</p>
+
+    <h2>🚀 Novedades Principales</h2>
+    <p>La gran innovación es la gestión de <strong>unidades</strong>. El sistema calcula automáticamente el <strong>TOTAL</strong> (cantidad × precio unitario), manteniéndolo siempre visible en un panel flotante al pie de la lista.</p>
+
+    <h2>📖 Guía de Uso Rápido</h2>
+    <ul>
+        <li><strong>Añadir:</strong> Escribí el nombre del producto y tocá <span class="btn-ref">AÑADIR</span> o presioná <em>Enter</em>.</li>
+        <li><strong>✏️ Reordenar Lista:</strong> Tocá el botón <span class="btn-ref">✏️ ORDEN</span>. Verás que la lista cambia de aspecto: mantené presionado un producto y <strong>arrastralo</strong> a su nueva ubicación. Al terminar, tocá <span class="btn-ref">✅ FINALIZAR</span>.</li>
+        <li><strong>Mover uno a uno:</strong> También podés usar las flechas <span class="btn-ref">▲/▼</span> a la izquierda de cada producto para ajustes finos.</li>
+        <li><strong>Eliminar:</strong> Tocá la <span class="btn-ref">✕</span>. Cambiará a un icono de basura <span class="btn-ref">🗑️</span>; tocalo nuevamente para confirmar el borrado.</li>
+    </ul>
+
+    <h2>💰 Gestión de Precios y Totales</h2>
+    <ol>
+        <li>Indicá primero la <strong>cantidad</strong> de unidades (la casilla se tornará <span class="highlight">verde 🟢</span>).</li>
+        <li>Ingresá el <strong>precio unitario</strong>.</li>
+    </ol>
+    <p>Al completar ambos datos, el nombre del artículo se tachará y el valor se sumará al <strong>TOTAL</strong> flotante. Si ponés las unidades en <code>0</code> o borrás el precio, el sistema resta el valor automáticamente y el artículo recupera su estado original.</p>
+
+    <h2>🛠️ Herramientas y Backup</h2>
+    <ul>
+        <li><span class="btn-ref">🔄 Desmarcar</span>: Limpia todas las cantidades y precios. Ideal para reutilizar una lista base en una nueva compra.</li>
+        <li><span class="btn-ref">💰 Limpiar $</span>: Resetea todos los precios a cero manteniendo las cantidades.</li>
+        <li><span class="btn-ref">📤 Backup / Envío</span>: 
+            <ul>
+                <li><strong>Compartir:</strong> Envía un texto detallado por WhatsApp u otras redes.</li>
+                <li><strong>Archivo (.json):</strong> Genera un respaldo que podés guardar en tu dispositivo o enviar por email para que otro usuario lo abra en su propia App.</li>
+            </ul>
+        </li>
+        <li><span class="btn-ref">🗑️ Vaciar Lista</span>: Borra absolutamente todo para comenzar desde cero.</li>
+    </ul>
+
+    <h2>📲 Instalación Recomendada</h2>
+    <p>Para una experiencia óptima, abrí el sitio oficial, descargá la App, y desde el menú de tu navegador (Chrome, Safari o Edge) seleccioná <strong>"Instalar aplicación"</strong> o <strong>"Añadir a la pantalla de inicio"</strong>. La lista se guarda automáticamente en tu dispositivo para uso offline.</p>
+
+    <div class="footer">
+        <p>¡Usá tu tiempo y dinero de forma más eficiente con <strong>Checklist PLUS</strong>!</p>
+        <p>© Joaquín Luis Navarro</p>
+    </div>
+</div>
+
+</body>
+</html>
