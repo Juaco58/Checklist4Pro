@@ -1,8 +1,11 @@
-const CACHE_NAME = 'checklist-pro-alternativa-v2.4B';
+// 1. CAMBIAMOS EL NOMBRE DEL CACHÉ (Subimos la versión para que el celu detecte el cambio)
+const CACHE_NAME = 'checklist-pro-root-v8.0'; 
+
 const ASSETS = [
+  './',                  // <--- Importante para la ruta principal
   './index.html',
   './manifest.json',
-  // Iconos en la carpeta superior (Root)
+  // Nombres de iconos tal cual los tenés en el root:
   './android-chrome-192x192.png',
   './android-chrome-512x512.png',
   './maskable-icon-512x512-alt-v2.png'
@@ -10,7 +13,7 @@ const ASSETS = [
 
 // Instala el Service Worker y guarda los archivos en caché
 self.addEventListener('install', event => {
-    self.skipWaiting(); // <--- OBLIGATORIO para que el cartel funcione
+    self.skipWaiting(); 
     event.waitUntil(
         caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
     );
@@ -27,11 +30,19 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Responde con los archivos del caché cuando no hay conexión
+// Estrategia: Cache con caída a Red (mejor para offline)
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request)
       .then((response) => response || fetch(event.request))
   );
 });
-// Versión 2.4B (Cambiá este número para que el navegador detecte el cambio)
+
+// Escuchar el mensaje del botón "Aceptar" del cartel de actualización
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
+// Versión 8.0 (Final en Root)
