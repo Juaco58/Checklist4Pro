@@ -1,4 +1,4 @@
-const CACHE_NAME = 'checklist-pro-alternativa-v2.4';
+const CACHE_NAME = 'checklist-pro-alternativa-v2.4B';
 const ASSETS = [
   './index.html',
   './manifest.json',
@@ -34,4 +34,4 @@ self.addEventListener('fetch', (event) => {
       .then((response) => response || fetch(event.request))
   );
 });
-// Versión 2.4 (Cambiá este número para que el navegador detecte el cambio)
+// Versión 2.4B (Cambiá este número para que el navegador detecte el cambio)
