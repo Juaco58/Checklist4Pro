@@ -21,29 +21,30 @@
 <body>
 
 <div class="container">
-    <h1>🛒 Checklist PLUS <span class="badge">v2.0</span></h1>
+    <h1>🛒 Checklist PLUS <span class="badge">v8.0</span></h1>
     <p><strong>Checklist PLUS</strong> es una aplicación gratuita diseñada por <strong>Joaquín Navarro</strong>. Es la evolución de la versión <em>Checklist 4 Pro</em>, desarrollada en HTML y JavaScript con asistencia de Inteligencia Artificial (Gemini).</p>
 
     <h2>🚀 Novedades Principales</h2>
-    <p>La gran innovación es la gestión de <strong>unidades</strong>. El sistema calcula automáticamente el <strong>TOTAL</strong> (cantidad × precio unitario), manteniéndolo siempre visible en un panel flotante al pie de la lista.</p>
+    <p>La gran innovación es, sumado a la gestión de <strong>unidades</strong>, el <strong>comando por voz</strong>, y la <strong>búsqueda de un producto en el listado</strong> (útil en listas largas). El sistema calcula automáticamente el <strong>TOTAL</strong>, sumando la cantidad × precio unitario de todos los productos, manteniéndolo siempre visible en un panel flotante al pie de la lista.</p>
 
     <h2>📖 Guía de Uso Rápido</h2>
     <ul>
-        <li><strong>Añadir:</strong> Escribí el nombre del producto y tocá <span class="btn-ref">AÑADIR</span> o presioná <em>Enter</em>.</li>
+        <li><strong>Añadir:</strong> Picá el micrófono y dictá el nombre del producto, o bien tipealo y tocá <span class="btn-ref">AÑADIR</span> o presioná <em>Enter</em>.</li>
         <li><strong>✏️ Reordenar Lista:</strong> Tocá el botón <span class="btn-ref">✏️ ORDEN</span>. Verás que la lista cambia de aspecto: mantené presionado un producto y <strong>arrastralo</strong> a su nueva ubicación. Al terminar, tocá <span class="btn-ref">✅ FINALIZAR</span>.</li>
-        <li><strong>Mover uno a uno:</strong> También podés usar las flechas <span class="btn-ref">▲/▼</span> a la izquierda de cada producto para ajustes finos.</li>
+        <li><strong>Mover uno a uno:</strong> También podés usar las flechas <span class="btn-ref">▲/▼</span> a la izquierda de cada producto para hacer ajustes finos de su posición en la lista.</li>
         <li><strong>Eliminar:</strong> Tocá la <span class="btn-ref">✕</span>. Cambiará a un icono de basura <span class="btn-ref">🗑️</span>; tocalo nuevamente para confirmar el borrado.</li>
     </ul>
 
     <h2>💰 Gestión de Precios y Totales</h2>
     <ol>
-        <li>Indicá primero la <strong>cantidad</strong> de unidades (la casilla se tornará <span class="highlight">verde 🟢</span>).</li>
-        <li>Ingresá el <strong>precio unitario</strong>.</li>
+        <li>Indicá primero la <strong>cantidad de unidades</strong> de un producto, escribiéndola o habilitando el micrófono y dictando en este estricto orden: "Cantidad" "Producto".</li>
+        <li>Ingresá el <strong>precio unitario </strong>, tipeándolo, o dictando en este orden: "Precio" "Producto". Ante cualquiera de estos cambios habrá un destello y la casilla se tornará <span class="highlight">verde 🟢</span>).</li>
     </ol>
     <p>Al completar ambos datos, el nombre del artículo se tachará y el valor se sumará al <strong>TOTAL</strong> flotante. Si ponés las unidades en <code>0</code> o borrás el precio, el sistema resta el valor automáticamente y el artículo recupera su estado original.</p>
 
     <h2>🛠️ Herramientas y Backup</h2>
     <ul>
+        <li><span class="btn-ref">🔍 Buscar</span>: A medida que se tipea un producto, busca la mejor coincidencia y se ubica sobre él. Una vez realizado el cambio en sus atributos, debe borrarse de la casilla para volver a la lista.</li>
         <li><span class="btn-ref">🔄 Desmarcar</span>: Limpia todas las cantidades y precios. Ideal para reutilizar una lista base en una nueva compra.</li>
         <li><span class="btn-ref">💰 Limpiar $</span>: Resetea todos los precios a cero manteniendo las cantidades.</li>
         <li><span class="btn-ref">📤 Backup / Envío</span>: 
