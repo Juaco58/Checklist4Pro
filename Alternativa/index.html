@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Checklist 4 Pro 🛒</title>
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+        :root { --primary: #2972a3; --success: #117d3e; --danger: #c21c0a; --warning: #915b05; --dark: #20558a; --bg: #f4f7f6; }
+        
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); display: flex; justify-content: center; height: 100vh; margin: 0; padding: 10px; overflow: hidden; box-sizing: border-box; }
+
+        .card { background: white; width: 100%; max-width: 450px; padding: 1.2rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); display: flex; flex-direction: column; height: 100%; box-sizing: border-box; }
+
+        h2 { text-align: center; color: var(--dark); margin: 5px 0 10px 0; font-size: 1.5rem; }
+
+        .add-section { display: flex; gap: 8px; margin-bottom: 15px; flex-shrink: 0; align-items: center; }
+        
+        .input-wrapper { position: relative; flex: 1; display: flex; align-items: center; }
+
+        #new-item { padding: 12px; padding-right: 45px; border: 2px solid #edf2f7; border-radius: 10px; outline: none; font-size: 1.1rem; width: 100%; box-sizing: border-box; height: 45px; }
+
+        #btn-voice-input { position: absolute; right: 5px; background: none; border: none; cursor: pointer; padding: 8px; display: flex; align-items: center; }
+        #mic-icon { fill: #5f6368; transition: fill 0.3s; }
+
+        .btn-add { background: var(--dark); color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; padding: 0 15px; font-size: 1rem; height: 45px; }
+
+        #list-container { flex: 1; overflow-y: auto; margin: 5px 0; padding: 0; list-style: none; -webkit-overflow-scrolling: touch; }
+
+        li { display: flex; align-items: center; gap: 6px; padding: 8px 4px; background: #fff; border: 1px solid #f0f0f0; margin-bottom: 8px; border-radius: 10px; transition: background 0.2s; }
+
+        .footer-fix { background: white; padding-top: 10px; border-top: 2px solid #edf2f7; flex-shrink: 0; }
+
+        .total-container { display: flex; justify-content: space-between; padding: 12px; background: var(--dark) !important; color: white !important; border-radius: 12px; font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; }
+
+        .actions-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+
+        .btn-action { padding: 8px 2px; font-size: 0.72rem; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 52px; }
+
+        .btn-action:nth-child(1), .btn-action:nth-child(2), .btn-action:nth-child(3) { grid-column: span 2; }
+        .btn-action:nth-child(4), .btn-action:nth-child(5) { grid-column: span 3; }
+
+        /* ESTILOS DINÁMICOS */
+        .qty-input { width: 35px; text-align: center; border: 2px solid #cbd5e0; padding: 4px; border-radius: 6px; font-size: 0.85rem; font-weight: 800; }
+        .input-price { width: 75px; text-align: right; font-weight: bold; border: 2px solid #cbd5e0; border-radius: 6px; padding: 6px 4px; }
+        .item-name { flex: 1; font-size: 0.9rem; color: #4a5568; word-break: break-word; font-weight: 500; }
+        
+        .active-border { border-color: #117d3e !important; background-color: #e6fffa !important; color: #117d3e !important; border-width: 2.5px !important; font-weight: 900 !important; }
+        .has-price .item-name { text-decoration: line-through; color: #a0aec0; }
+        
+        .btn-del { background: none; border: none; font-weight: bold; color: #7f8c8d; cursor: pointer; padding: 5px; }
+        .confirm-delete { color: var(--danger) !important; }
+
+        .editing-active li { cursor: move; border: 2px dashed var(--primary) !important; background: #f0f9ff; touch-action: none; user-select: none; }
+        .editing-active .btn-del, .editing-active .input-price, .editing-active .qty-input, .editing-active .btn-move { opacity: 0.3; pointer-events: none; }
+        .dragging { opacity: 0.4; background-color: var(--primary) !important; }
+
+        .move-controls { display: flex; flex-direction: column; gap: 2px; }
+        .btn-move { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 2px 6px; font-size: 0.7rem; cursor: pointer; color: #64748b; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Mi Compra 🛒</h2>
+        <div class="add-section">
+            <div class="input-wrapper">
+                <input id="new-item" placeholder="Ej: Café, Pan..." type="text">
+                <button type="button" id="btn-voice-input">
+                    <svg id="mic-icon" xmlns="http://www.w3.org" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                        <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                    </svg>
+                </button>
+            </div>
+            <button class="btn-add" id="btn-add">Añadir</button>
+        </div>
+<div class="search-section" style="margin-bottom: 10px;">
+    <input type="text" id="search-item" placeholder="🔍 Buscar en la lista... (vaciar al finalizar)" 
+           style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #cbd5e0; outline: none;">
+</div>
+
+        <ul id="list-container"></ul>
+
+        <div class="footer-fix">
+            <div class="total-container">
+                <span>TOTAL:</span>
+                <span id="grand-total">$0.00</span>
+            </div>
+            <div class="actions-grid">
+                <button class="btn-action" style="background:#e0f2fe; color:var(--primary)" id="btn-edit-mode">✏️ Orden</button>
+                <button class="btn-action" style="background:#e8f5e9; color:var(--success)" id="btn-reset-checks">🔄 Desmarcar</button>
+                <button class="btn-action" style="background:#fffaf0; color:var(--warning)" id="btn-reset-prices">💰 Limpiar $</button>
+                <button class="btn-action" style="background:#edf2f7; color:var(--dark)" id="btn-share">📤 Backup/Envío</button>
+                <button class="btn-action" style="background:#fff5f5; color:var(--danger)" id="btn-clear">🗑️ Vaciar Lista</button>
+            </div>
+        </div>
+        <footer style="text-align: center; font-size: 0.7rem; padding-top: 10px; color: #718096;">
+            © Joaquín Luis Navarro | Alias: <b>juaco58.arg.mp</b>
+        </footer>
+    </div>
+
+<script>
+    const inputItem = document.getElementById('new-item');
+    const btnAdd = document.getElementById('btn-add');
+    const listContainer = document.getElementById('list-container');
+    const grandTotalDisplay = document.getElementById('grand-total');
+    let isEditing = false;
+    let scrollInterval;
+
+    // --- LÓGICA DE DATOS ---
+    function save() {
+        const items = Array.from(document.querySelectorAll('#list-container li')).map(li => ({
+            name: li.querySelector('.item-name').textContent,
+            qty: li.querySelector('.qty-input').value,
+            price: li.querySelector('.input-price').value
+        }));
+        localStorage.setItem('marketListV3', JSON.stringify(items));
+    }
+
+       function calculateTotal() {
+        let total = 0;
+        document.querySelectorAll('#list-container li').forEach(li => {
+            const qInp = li.querySelector('.qty-input');
+            const pInp = li.querySelector('.input-price');
+            
+            // --- PROTECCIÓN TOTAL ANTI-NEGATIVOS ---
+            // Si el valor contiene un "-" o es menor a 0, lo pasamos a positivo
+            if (qInp.value.includes('-') || parseFloat(qInp.value) < 0) {
+                qInp.value = qInp.value.replace(/-/g, "") || "";
+            }
+            if (pInp.value.includes('-') || parseFloat(pInp.value) < 0) {
+                pInp.value = pInp.value.replace(/-/g, "") || "";
+            }
+
+            let qty = parseInt(qInp.value) || 0;
+            let price = parseFloat(pInp.value) || 0;
+
+            qInp.classList.toggle('active-border', qty > 0);
+            pInp.classList.toggle('active-border', pInp.value !== "" && price > 0);
+
+            if (pInp.value !== "" && qty > 0 && price > 0) {
+                li.classList.add('has-price');
+                total += (qty * price);
+            } else {
+                li.classList.remove('has-price');
+                if (qty <= 0) pInp.value = "";
+            }
+        });
+        grandTotalDisplay.textContent = `$${total.toFixed(2)}`;
+        save();
+    }
+
+
+    function createItem(name, price = "", qty = "") {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <div class="move-controls">
+                <button class="btn-move" onclick="moveItem(this, 'up')">▲</button>
+                <button class="btn-move" onclick="moveItem(this, 'down')">▼</button>
+            </div>
+            <input type="number" class="qty-input" value="${qty}" placeholder="0" min="0" inputmode="numeric">
+            <span class="item-name">${name}</span>
+            <input type="number" class="input-price" placeholder="0.00" value="${price}" inputmode="decimal">
+            <button class="btn-del">✕</button>
+        `;
+        
+                const qInp = li.querySelector('.qty-input');
+        const pInp = li.querySelector('.input-price');
+
+        // Bloqueo físico de la tecla "menos" y "e" (exponencial)
+        const bloquearNegativos = (e) => {
+            if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+                e.preventDefault();
+            }
+        };
+
+        qInp.onkeydown = bloquearNegativos;
+        pInp.onkeydown = bloquearNegativos;
+
+        qInp.oninput = calculateTotal;
+
+        pInp.oninput = function() {
+            // Limpieza extra por si pegan un texto con menos
+            if (this.value.includes('-')) this.value = this.value.replace(/-/g, "");
+            
+            let val = this.value;
+            if (val.indexOf('.') !== -1) {
+                let parts = val.split('.');
+                if (parts[1].length > 2) {
+                    this.value = parts[0] + '.' + parts[1].slice(0, 2);
+                }
+            }
+            calculateTotal();
+        };
+
+        li.querySelector('.btn-del').onclick = function() {
+            if (!this.classList.contains('confirm-delete')) {
+                this.classList.add('confirm-delete');
+                this.textContent = "🗑️";
+                setTimeout(() => { if(this.parentNode) { this.classList.remove('confirm-delete'); this.textContent = "✕"; } }, 2000);
+            } else { li.remove(); calculateTotal(); }
+        };
+
+        listContainer.appendChild(li);
+        if (isEditing) habilitarDragAndDrop();
+        calculateTotal();
+        // Esta línea hace que el navegador "mire" el nuevo elemento
+li.scrollIntoView({ behavior: 'smooth', block: 'end' });
+
+    }
+
+    // --- ORDENAMIENTO ---
+    function moveItem(btn, direction) {
+        const li = btn.closest('li');
+        if (direction === 'up') {
+            const prev = li.previousElementSibling;
+            if (prev) listContainer.insertBefore(li, prev);
+        } else {
+            const next = li.nextElementSibling;
+            if (next) listContainer.insertBefore(next, li);
+        }
+        save();
+    }
+
+    function habilitarDragAndDrop() {
+        const items = listContainer.querySelectorAll('li');
+        items.forEach(item => {
+            item.draggable = true;
+            item.ondragstart = (e) => { item.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; };
+            item.ondragend = () => { item.classList.remove('dragging'); clearInterval(scrollInterval); save(); };
+        });
+
+        listContainer.ondragover = (e) => {
+            e.preventDefault();
+            const draggingItem = document.querySelector('.dragging');
+            if (!draggingItem) return;
+            const containerRect = listContainer.getBoundingClientRect();
+            clearInterval(scrollInterval);
+            if (e.clientY < containerRect.top + 50) { scrollInterval = setInterval(() => { listContainer.scrollTop -= 5; }, 10); }
+            else if (e.clientY > containerRect.bottom - 50) { scrollInterval = setInterval(() => { listContainer.scrollTop += 5; }, 10); }
+            const target = e.target.closest('li');
+            if (target && target !== draggingItem) {
+                const rect = target.getBoundingClientRect();
+                const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
+                listContainer.insertBefore(draggingItem, next ? target.nextSibling : target);
+            }
+        };
+    }
+
+    function deshabilitarDragAndDrop() {
+        listContainer.querySelectorAll('li').forEach(li => li.draggable = false);
+        listContainer.ondragover = null;
+    }
+
+    // --- RECONOCIMIENTO DE VOZ ---
+       // --- RECONOCIMIENTO DE VOZ CORREGIDO ---
+    const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'es-ES';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        const btnVoice = document.getElementById('btn-voice-input');
+        const micSvg = document.getElementById('mic-icon');
+
+        btnVoice.onclick = () => {
+            try {
+                recognition.start();
+                micSvg.style.fill = "#d93025"; // Rojo al iniciar
+            } catch (e) {
+                recognition.stop();
+            }
+        };
+
+        recognition.onresult = (event) => {
+    let text = event.results[0][0].transcript.toLowerCase().trim();
+    
+    // 1. Limpieza de texto (Mantenemos tu lógica original)
+    text = text.replace(/\s+(con|coma)\s+/g, ".");
+    text = text.replace(/,/g, ""); 
+
+    const numMap = { "una": "1", "uno": "1", "dos": "2", "tres": "3", "cuatro": "4", "cinco": "5" };
+    for (let p in numMap) {
+        text = text.replace(new RegExp(`\\b${p}\\b`, 'g'), numMap[p]);
+    }
+
+    console.log("TEXTO PROCESADO:", text);
+    micSvg.style.fill = "#5f6368";
+
+    // --- NUEVA LÓGICA DE DETECCIÓN ---
+    
+                // --- NUEVA LÓGICA DE DETECCIÓN (Solo procesa si empieza con la acción) ---
+
+            // 1. Lógica de PRECIO (Orden: "precio [producto] [valor]")
+            if (text.startsWith("precio")) {
+                const mP = text.match(/^precio\s+(?:de\s+)?(.+?)\s+(\d+(?:\.\d+)?)$/);
+                if (mP) {
+                    const name = mP[1].trim();
+                    const priceVal = Math.abs(parseFloat(mP[2]));
+                    updatePriceByVoice(name, priceVal);
+                } else {
+                    console.log("Comando de precio incompleto o mal dictado");
+                }
+                inputItem.value = "";
+                return; // IMPORTANTE: Corta aquí, no crea un ítem nuevo
+            }
+
+            // 2. Lógica de CANTIDAD (Orden: "cantidad [producto] [valor]")
+            // ... dentro de recognition.onresult ...
+
+// 2. Lógica de CANTIDAD (Orden: "cantidad [producto] [valor]")
+// 2. Lógica de CANTIDAD (Orden: "cantidad [producto] [valor]")
+if (text.startsWith("cantidad")) {
+    const mC = text.match(/^cantidad\s+(.+?)\s+(\d+)$/);
+    if (mC) {
+        const nameQty = mC[1].trim(); // Fíjate que diga [1]
+        const qtyVal = Math.abs(parseInt(mC[2])); // Fíjate que diga [2]
+        
+        const items = document.querySelectorAll('#list-container li');
+        let found = false;
+        items.forEach(li => {
+            const nameEl = li.querySelector('.item-name');
+            if (nameEl && nameEl.textContent.toLowerCase() === nameQty) {
+                const qIn = li.querySelector('.qty-input');
+                qIn.value = qtyVal;
+                qIn.dispatchEvent(new Event('input', { bubbles: true }));
+
+                li.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                li.style.backgroundColor = '#fff9c4'; 
+                setTimeout(() => li.style.backgroundColor = '', 800);
+                
+                found = true;
+            }
+        });
+        if (!found) createItem(nameQty, "", qtyVal);
+    }
+    inputItem.value = "";
+    return; // IMPORTANTE: Corta aquí
+}
+
+
+            // 3. Lógica de CARGA SIMPLE (Si no es precio ni cantidad)
+            let name = text;
+            if (name) {
+                if (name.endsWith('.')) name = name.slice(0, -1);
+                
+                const items = document.querySelectorAll('#list-container li');
+                let found = false;
+                items.forEach(li => {
+                    const nameEl = li.querySelector('.item-name');
+                    if (nameEl && nameEl.textContent.toLowerCase() === name) {
+                        // Si solo decís el nombre y ya existe, podrías por ejemplo sumar +1 
+                        // o simplemente no hacer nada. Aquí lo dejamos como estaba:
+                        found = true;
+                    }
+                });
+                if (!found) createItem(name, "", "");
+                inputItem.value = "";
+            }
+
+};
+
+
+        recognition.onend = () => { micSvg.style.fill = "#5f6368"; };
+        recognition.onerror = () => { micSvg.style.fill = "#5f6368"; };
+    }
+
+
+   function updatePriceByVoice(name, price) {
+    document.querySelectorAll('#list-container li').forEach(li => {
+        // Buscamos coincidencia de nombre
+        if (li.querySelector('.item-name').textContent.toLowerCase().includes(name.toLowerCase())) {
+            const qtyIn = li.querySelector('.qty-input');
+            const priceIn = li.querySelector('.input-price');
+            
+            // Solo actualizamos si hay cantidad (según tu lógica actual)
+            if (parseInt(qtyIn.value) > 0) {
+                priceIn.value = price;
+                priceIn.dispatchEvent(new Event('input', { bubbles: true }));
+
+                // SCROLL Y DESTELLO
+                li.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                li.style.backgroundColor = '#fff9c4'; 
+                setTimeout(() => li.style.backgroundColor = '', 800);
+            }
+        }
+    });
+}
+
+
+    // --- ACCIONES GENERALES ---
+    btnAdd.onclick = () => { if(inputItem.value.trim()) { createItem(inputItem.value.trim()); inputItem.value = ""; } };
+    inputItem.onkeypress = (e) => { if(e.key === 'Enter') btnAdd.click(); };
+
+    document.getElementById('btn-edit-mode').onclick = function() {
+        isEditing = !isEditing;
+        if (isEditing) {
+            document.body.classList.add('editing-active');
+            this.textContent = "✅ Finalizar"; this.style.background = "var(--success)"; this.style.color = "white";
+            habilitarDragAndDrop();
+        } else {
+            document.body.classList.remove('editing-active');
+            this.textContent = "✏️ Orden"; this.style.background = "#e0f2fe"; this.style.color = "var(--primary)";
+            deshabilitarDragAndDrop(); save();
+        }
+    };
+
+    document.getElementById('btn-reset-checks').onclick = () => {
+        if(confirm("¿Restablecer cantidades y precios a cero?")) {
+            document.querySelectorAll('.qty-input, .input-price').forEach(i => i.value = "");
+            calculateTotal();
+        }
+    };
+
+    document.getElementById('btn-reset-prices').onclick = () => {
+        if(confirm("¿Limpiar solo los precios?")) {
+            document.querySelectorAll('.input-price').forEach(i => i.value = "");
+            calculateTotal();
+        }
+    };
+
+    document.getElementById('btn-clear').onclick = () => { if(confirm("¿Vaciar lista completa?")) { listContainer.innerHTML = ""; calculateTotal(); } };
+
+    document.getElementById('btn-share').onclick = async () => {
+        const opcion = prompt("1. Compartir Texto\n2. Backup (JSON)\n3. Restaurar (JSON)");
+        if (opcion === "1") {
+            let text = "🛒 *MI COMPRA*\n\n";
+            document.querySelectorAll('#list-container li').forEach(li => {
+                const name = li.querySelector('.item-name').textContent;
+                const qty = li.querySelector('.qty-input').value || 0;
+                const p = li.querySelector('.input-price').value;
+                const ok = li.classList.contains('has-price') ? "✅" : "⬜";
+                text += `${ok} (${qty}) ${name} ${li.classList.contains('has-price') ? '$'+(qty*p).toFixed(2) : ''}\n`;
+            });
+            text += `\n💰 *TOTAL: ${grandTotalDisplay.textContent}*`;
+            if (navigator.share) await navigator.share({ text });
+            else { await navigator.clipboard.writeText(text); alert("Copiado al portapapeles"); }
+        } else if (opcion === "2") {
+            const blob = new Blob([localStorage.getItem('marketListV3')], { type: 'application/json' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "lista.json"; a.click();
+        } else if (opcion === "3") {
+            const inp = document.createElement('input'); inp.type = 'file';
+            inp.onchange = e => {
+                const r = new FileReader();
+                r.onload = ev => { localStorage.setItem('marketListV3', ev.target.result); window.location.reload(); };
+                r.readAsText(e.target.files[0]);
+            }; inp.click();
+        }
+    };
+
+    // --- CARGA INICIAL ---
+    window.onload = () => {
+        const saved = localStorage.getItem('marketListV3');
+        if (saved) JSON.parse(saved).forEach(i => createItem(i.name, i.price, i.qty));
+        
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./service-worker.js').then(reg => {
+                reg.onupdatefound = () => {
+                    const nw = reg.installing;
+                    nw.onstatechange = () => {
+                        if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+                            if (confirm("¡Nueva versión! ¿Actualizar?")) window.location.reload();
+                        }
+                    };
+                };
+            });
+        }
+    };
+
+document.getElementById('search-item').oninput = function() {
+    const searchTerm = this.value.toLowerCase();
+    const items = document.querySelectorAll('#list-container li');
+
+    items.forEach(li => {
+        const productName = li.querySelector('.item-name').textContent.toLowerCase();
+        // Si el nombre contiene lo que escribimos, se muestra; si no, se oculta
+        if (productName.includes(searchTerm)) {
+            li.style.display = "flex";
+        } else {
+            li.style.display = "none";
+        }
+    });
+};
+
+</script>
+
+</body>
+</html>
