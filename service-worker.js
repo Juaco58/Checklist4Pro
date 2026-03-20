@@ -1,5 +1,5 @@
 // 1. CAMBIAMOS EL NOMBRE DEL CACHÉ (Subimos la versión para que el celu detecte el cambio)
-const CACHE_NAME = 'checklist-pro-root-v8.0'; 
+const CACHE_NAME = 'checklist-pro-root-v8.1'; 
 
 const ASSETS = [
   './',                  // <--- Importante para la ruta principal
@@ -45,4 +45,4 @@ self.addEventListener('message', event => {
   }
 });
 
-// Versión 8.0 (Final en Root)
+// Versión 8.1 (Final en Root)
