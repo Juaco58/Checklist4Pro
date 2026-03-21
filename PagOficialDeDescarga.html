@@ -92,10 +92,11 @@
         .copy-link { background-color: #64748b; }
 
         .video-section { border-top: 1px solid #e2e8f0; padding-top: 35px; margin-top: 40px; }
-        .video-wrapper { border-radius: 18px; overflow: hidden; background: #000; }
+        .video-wrapper { border-radius: 18px; overflow: hidden; background: #000; margin-top: 15px; }
         video { display: block; width: 100%; }
     </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -113,13 +114,14 @@
             <i class="fa-solid fa-file-pdf"></i> Información de uso
         </a>
     </div>
-<!-- AQUÍ ESTA EL VIDEO GUIA DE USO -->
- <div class="video-section">
-        <h3><i class="fa-solid fa-play-circle" style="color: #ef4444; margin-right: 8px;"></i>Video Guía/Tutorial de uso
+
+    <div class="video-section">
+        <h3><i class="fa-solid fa-play-circle" style="color: #ef4444; margin-right: 8px;"></i>Video Guía/Tutorial de uso</h3>
+        <div class="video-wrapper">
             <video controls>
                 <source src="https://juaco58.github.io/Checklist4Pro/CheckPlusConVoice-v3.mp4" type="video/mp4">
             </video>
-        
+        </div>
     </div>
 
     <div class="share-section">
@@ -136,6 +138,11 @@
             </button>
         </div>
     </div>
+
+    <!-- CREDITOS DENTRO DEL CONTAINER -->
+    <footer style="margin-top: 30px; font-size: 0.75rem; color: #718096; border-top: 1px solid #edf2f7; padding-top: 15px;">
+        © Joaquín Luis Navarro | 2026 |</b>
+    </footer>
 </div>
 
 <script>
@@ -151,5 +158,3 @@
 
 </body>
 </html>
-
-
